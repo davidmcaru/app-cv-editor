@@ -1,0 +1,362 @@
+{
+    "meta": {
+        "version": "1.0",
+        "lastUpdated": "2026-11-25",
+        "defaultTheme": "theme-dark-ocean"
+    },
+    "personal": {
+        "name": "Jonas Albrecht",
+        "photo": "./cv/foto-generica.webp",
+        "photoUrl": "",
+        "qr": "./cv/qr-repo.webp",
+        "qrUrl": "https://github.com/davidmcaru/app-cv-editor",
+        "contact": {
+            "location": {
+                "ES": "Hamburgo, Alemania",
+                "EN": "Hamburg, Germany",
+                "DE": "Hamburg, Deutschland"
+            },
+            "locationUrl": "https://www.google.com/maps/place/Hamburg",
+            "phone": "+49 40 66969 274",
+            "phoneUrl": "tel:+494066969274",
+            "email": "jonas.albrecht@example.com",
+            "emailUrl": "mailto:jonas.albrecht@example.com",
+            "linkedin": "linkedin.com/in/jalbrecht",
+            "linkedinUrl": "https://www.linkedin.com/",
+            "github": "github.com/jalbrecht",
+            "githubUrl": "https://github.com/"
+        }
+    },
+    "header": {
+        "title": {
+            "ES": "Ingeniero de Datos",
+            "EN": "Data Engineer",
+            "DE": "Data Engineer"
+        },
+        "tagline": {
+            "ES": "Datos fiables, de la ingesta al cuadro de mando",
+            "EN": "Reliable data, from ingestion to dashboard",
+            "DE": "Verlässliche Daten – von der Erfassung bis zum Dashboard"
+        }
+    },
+    "sections": {
+        "contact": {
+            "ES": "Contacto",
+            "EN": "Contact",
+            "DE": "Kontakt"
+        },
+        "tools": {
+            "ES": "Herramientas",
+            "EN": "Tools & Technologies",
+            "DE": "IT-Kenntnisse"
+        },
+        "competencies": {
+            "ES": "Competencias",
+            "EN": "Core Competencies",
+            "DE": "Kernkompetenzen"
+        },
+        "languages": {
+            "ES": "Idiomas",
+            "EN": "Languages",
+            "DE": "Sprachen"
+        },
+        "profile": {
+            "ES": "Perfil Profesional",
+            "EN": "Professional Profile",
+            "DE": "Berufsprofil"
+        },
+        "experience": {
+            "ES": "Experiencia Laboral",
+            "EN": "Work Experience",
+            "DE": "Berufserfahrung"
+        },
+        "education": {
+            "ES": "Formación",
+            "EN": "Education",
+            "DE": "Ausbildung"
+        }
+    },
+    "profile": {
+        "ES": "Ingeniero de datos con siete años diseñando las plataformas en las que confían negocio y analítica. Construyo pipelines que se pueden auditar, modelos de datos que se entienden y alertas que avisan antes que los usuarios. En mi puesto actual unifiqué 40 fuentes en un lakehouse y reduje a la mitad el coste en la nube.",
+        "EN": "Data engineer with seven years designing the platforms that business and analytics teams rely on. I build pipelines you can audit, data models people understand and alerts that fire before users notice. In my current role I unified 40 sources into a lakehouse and halved cloud costs.",
+        "DE": "Data Engineer mit sieben Jahren Erfahrung im Aufbau der Plattformen, auf die sich Fachbereiche und Analytics verlassen. Ich baue nachvollziehbare Pipelines, klare Datenmodelle und Alerts, die vor den Nutzern anschlagen. Zuletzt: 40 Quellen in einem Lakehouse vereint und die Cloud-Kosten halbiert."
+    },
+    "skills": [
+        "Python",
+        "SQL",
+        "Spark",
+        "Airflow",
+        "dbt",
+        "Kafka",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "Terraform",
+        "PostgreSQL",
+        "Power BI"
+    ],
+    "competencies": {
+        "ES": [
+            "Modelado de datos",
+            "Pipelines ETL/ELT",
+            "Calidad de datos",
+            "Arquitectura en la nube",
+            "Gobierno del dato",
+            "Optimización de costes"
+        ],
+        "EN": [
+            "Data modelling",
+            "ETL/ELT pipelines",
+            "Data quality",
+            "Cloud architecture",
+            "Data governance",
+            "Cost optimisation"
+        ],
+        "DE": [
+            "Datenmodellierung",
+            "ETL/ELT-Pipelines",
+            "Datenqualität",
+            "Cloud-Architektur",
+            "Data Governance",
+            "Kostenoptimierung"
+        ]
+    },
+    "languages": [
+        {
+            "name": {
+                "ES": "Alemán",
+                "EN": "German",
+                "DE": "Deutsch"
+            },
+            "level": {
+                "ES": "Nativo",
+                "EN": "Native",
+                "DE": "Muttersprache"
+            }
+        },
+        {
+            "name": {
+                "ES": "Inglés",
+                "EN": "English",
+                "DE": "Englisch"
+            },
+            "level": {
+                "ES": "C1",
+                "EN": "C1",
+                "DE": "C1"
+            }
+        },
+        {
+            "name": {
+                "ES": "Español",
+                "EN": "Spanish",
+                "DE": "Spanisch"
+            },
+            "level": {
+                "ES": "B2",
+                "EN": "B2",
+                "DE": "B2"
+            }
+        }
+    ],
+    "experience": [
+        {
+            "title": {
+                "ES": "Senior Data Engineer",
+                "EN": "Senior Data Engineer",
+                "DE": "Senior Data Engineer"
+            },
+            "company": "Hafenlicht Logistik",
+            "date": {
+                "ES": "Abr 2023 – Actualidad",
+                "EN": "Apr 2023 – Present",
+                "DE": "Seit Apr 2023"
+            },
+            "details": [
+                {
+                    "title": {
+                        "ES": "Plataforma",
+                        "EN": "Platform",
+                        "DE": "Plattform"
+                    },
+                    "content": {
+                        "ES": "Unifiqué 40 fuentes (ERP, telemetría de la flota y web) en un lakehouse en AWS con Spark y dbt.",
+                        "EN": "Unified 40 sources (ERP, fleet telemetry and web) into an AWS lakehouse with Spark and dbt.",
+                        "DE": "40 Quellen (ERP, Flottentelemetrie, Web) in einem AWS-Lakehouse mit Spark und dbt vereint."
+                    }
+                },
+                {
+                    "title": {
+                        "ES": "Costes",
+                        "EN": "Costs",
+                        "DE": "Kosten"
+                    },
+                    "content": {
+                        "ES": "Rediseñé los procesos nocturnos y el almacenamiento: un 52 % menos de coste en la nube.",
+                        "EN": "Redesigned the nightly jobs and the storage: 52% lower cloud costs.",
+                        "DE": "Nächtliche Jobs und Speicher neu konzipiert: 52 % geringere Cloud-Kosten."
+                    }
+                },
+                {
+                    "title": {
+                        "ES": "Calidad",
+                        "EN": "Quality",
+                        "DE": "Qualität"
+                    },
+                    "content": {
+                        "ES": "Tests de datos y alertas en cada pipeline: las incidencias que llegaban a negocio bajaron de 12 al mes a una.",
+                        "EN": "Data tests and alerts on every pipeline: incidents reaching the business fell from 12 a month to one.",
+                        "DE": "Datentests und Alerts in jeder Pipeline: Störungen von 12 auf eine im Monat gesenkt."
+                    }
+                }
+            ]
+        },
+        {
+            "title": {
+                "ES": "Data Engineer",
+                "EN": "Data Engineer",
+                "DE": "Data Engineer"
+            },
+            "company": "Elbstrom Energie",
+            "date": {
+                "ES": "Ene 2020 – Mar 2023",
+                "EN": "Jan 2020 – Mar 2023",
+                "DE": "Jan 2020 – Mär 2023"
+            },
+            "details": [
+                {
+                    "title": {
+                        "ES": "Streaming",
+                        "EN": "Streaming",
+                        "DE": "Streaming"
+                    },
+                    "content": {
+                        "ES": "Lecturas de 80.000 contadores inteligentes casi en tiempo real con Kafka.",
+                        "EN": "Near-real-time readings from 80,000 smart meters with Kafka.",
+                        "DE": "Messwerte von 80.000 Smart Metern nahezu in Echtzeit mit Kafka."
+                    }
+                },
+                {
+                    "title": {
+                        "ES": "Informes",
+                        "EN": "Reporting",
+                        "DE": "Reporting"
+                    },
+                    "content": {
+                        "ES": "Pasé 60 informes de Excel a Power BI sobre un único modelo de datos.",
+                        "EN": "Moved 60 Excel reports to Power BI on a single data model.",
+                        "DE": "60 Excel-Berichte auf ein einheitliches Datenmodell in Power BI überführt."
+                    }
+                }
+            ]
+        },
+        {
+            "title": {
+                "ES": "Desarrollador BI",
+                "EN": "BI Developer",
+                "DE": "BI-Entwickler"
+            },
+            "company": "Kranich & Söhne",
+            "date": {
+                "ES": "Sep 2018 – Dic 2019",
+                "EN": "Sep 2018 – Dec 2019",
+                "DE": "Sep 2018 – Dez 2019"
+            },
+            "details": []
+        }
+    ],
+    "education": [
+        {
+            "title": {
+                "ES": "Máster en Ciencia de Datos",
+                "EN": "MSc in Data Science",
+                "DE": "M.Sc. Data Science"
+            },
+            "institution": "Hochschule Alstertal",
+            "date": {
+                "ES": "2016 – 2018",
+                "EN": "2016 – 2018",
+                "DE": "2016 – 2018"
+            }
+        }
+    ],
+    "ui": {
+        "buttons": {
+            "addSkill": {
+                "ES": "+ Añadir",
+                "EN": "+ Add",
+                "DE": "+ Hinzufügen"
+            },
+            "addItem": {
+                "ES": "+ Añadir",
+                "EN": "+ Add",
+                "DE": "+ Hinzufügen"
+            },
+            "addLanguage": {
+                "ES": "+ Añadir idioma",
+                "EN": "+ Add language",
+                "DE": "+ Sprache hinzufügen"
+            },
+            "addPoint": {
+                "ES": "+ Añadir punto",
+                "EN": "+ Add item",
+                "DE": "+ Punkt hinzufügen"
+            },
+            "addExperience": {
+                "ES": "+ Añadir experiencia",
+                "EN": "+ Add experience",
+                "DE": "+ Erfahrung hinzufügen"
+            },
+            "addEducation": {
+                "ES": "+ Añadir formación",
+                "EN": "+ Add education",
+                "DE": "+ Ausbildung hinzufügen"
+            }
+        },
+        "themes": {
+            "label": {
+                "ES": "Estilo",
+                "EN": "Theme",
+                "DE": "Stil"
+            }
+        },
+        "edit": {
+            "label": {
+                "ES": "Editar",
+                "EN": "Edit",
+                "DE": "Bearb."
+            },
+            "save": {
+                "ES": "Guardar",
+                "EN": "Save",
+                "DE": "Speichern"
+            },
+            "cancel": {
+                "ES": "Cancelar",
+                "EN": "Cancel",
+                "DE": "Abbrechen"
+            }
+        },
+        "download": {
+            "label": {
+                "ES": "Descargar",
+                "EN": "Download",
+                "DE": "Herunterladen"
+            }
+        },
+        "language": {
+            "label": {
+                "ES": "ESP",
+                "EN": "ENG",
+                "DE": "DEU"
+            }
+        },
+        "format": {
+            "names": {
+                "ES": ["Moderno", "Harvard", "Minimal", "ATS"],
+                "EN": ["Modern", "Harvard", "Minimal", "ATS"],
+                "DE": ["Modern", "Harvard", "Minimal", "ATS"]
+            }
+        }
+    }
+}

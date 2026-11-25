@@ -1,0 +1,338 @@
+.cv-container {
+    width: 210mm;
+    min-width: 210mm; /* Prevent shrinking */
+    flex-shrink: 0;
+    /* A4 EXACTO: el folio NUNCA se alarga en
+       pantalla — WYSIWYG con el PDF, que es siempre una cara. En VISTA lo que no
+       cabe se recorta (igual que el PDF); en EDICIÓN se ve fuera del folio para
+       poder editarlo (regla de abajo) y el chip #cvA4OverflowWarning lo señala. */
+    height: 297mm;
+    /* Fondo del folio configurable (panel Config): cualquier color via color-field. El JS setea --cv-page-bg en .cv-container; los temas
+       oscuros pintan su propio fondo con más especificidad → el override con la
+       property inline vive en la regla reforzada del bloque de overrides. */
+    background-color: var(--cv-page-bg, white);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    overflow: hidden;
+    /* Config de texto: el panel Textos/Config setea estas custom
+       properties por JS. Fallback = el look actual → sin cambio si el usuario no toca nada.
+       --cv-font-family (panel Textos) y --cv-line-height (panel Config). */
+    font-family: var(--cv-font-family, 'Roboto', sans-serif);
+}
+
+/* Interlineado configurable (panel Config): sin fallback propio para no pisar los
+   line-height específicos del diseño; solo aplica cuando el usuario elige un valor
+   (el JS setea --cv-line-height en .cv-container). */
+.cv-container[style*='--cv-line-height'] .profile-text,
+.cv-container[style*='--cv-line-height'] .job-details li,
+.cv-container[style*='--cv-line-height'] .list-clean li,
+.cv-container[style*='--cv-line-height'] .contact-info div {
+    line-height: var(--cv-line-height);
+}
+
+/* Espacio ENTRE SECCIONES configurable (panel Config): hueco del panel lateral (entre
+   Contacto, Herramientas…) y margen entre secciones de la columna principal (entre Perfil,
+   Experiencia…). Solo cuando el JS setea --cv-section-gap → default intacto. */
+.cv-container[style*='--cv-section-gap'] .sidebar {
+    gap: calc(var(--cv-section-gap) * 1px);
+}
+.cv-container[style*='--cv-section-gap'] .main-section {
+    margin-bottom: calc(var(--cv-section-gap) * 1px);
+}
+
+/* Tamaño de texto por grupo (panel Textos): multiplica los font-size base con calc().
+   Solo aplica cuando el JS setea la custom property del grupo → default (1) intacto.
+   4 grupos: Título · Subtítulos · Cuerpo (principal) · Panel (cuerpo del panel izq.) */
+
+.cv-container[style*='--cv-scale-title'] .header h1 {
+    font-size: calc(32px * var(--cv-scale-title));
+}
+
+.cv-container[style*='--cv-scale-subtitle'] .header h2 {
+    font-size: calc(16px * var(--cv-scale-subtitle));
+}
+.cv-container[style*='--cv-scale-subtitle'] .sidebar-section h3 {
+    font-size: calc(14px * var(--cv-scale-subtitle));
+}
+.cv-container[style*='--cv-scale-subtitle'] .main-section h3 {
+    font-size: calc(16px * var(--cv-scale-subtitle));
+}
+.cv-container[style*='--cv-scale-subtitle'] .job-title {
+    font-size: calc(15px * var(--cv-scale-subtitle));
+}
+
+.cv-container[style*='--cv-scale-body'] .header p {
+    font-size: calc(13px * var(--cv-scale-body));
+}
+.cv-container[style*='--cv-scale-body'] .profile-text {
+    font-size: calc(14px * var(--cv-scale-body));
+}
+.cv-container[style*='--cv-scale-body'] .job-date {
+    font-size: calc(12px * var(--cv-scale-body));
+}
+.cv-container[style*='--cv-scale-body'] .job-details {
+    font-size: calc(13px * var(--cv-scale-body));
+}
+
+.cv-container[style*='--cv-scale-panel'] .contact-info div {
+    font-size: calc(13px * var(--cv-scale-panel));
+}
+.cv-container[style*='--cv-scale-panel'] .list-clean {
+    font-size: calc(13px * var(--cv-scale-panel));
+}
+.cv-container[style*='--cv-scale-panel'] .skills-container .skill-tag {
+    font-size: calc(12px * var(--cv-scale-panel));
+}
+
+/* Color de texto por grupo (panel Textos): override sobre el color del tema. Subtítulos
+   incluye TODOS los encabezados (panel izq. + principal) y sus acentos (barra izquierda,
+   iconos de contacto, borde de la foto). Panel = cuerpo del panel lateral. */
+
+/* — Fondo del folio — El override del usuario (property inline --cv-page-bg) debe ganar
+   TAMBIÉN a los temas oscuros, que pintan el folio con `body.theme-dark-* .cv-container`
+   (0,2,1) — por eso el flip Blanco/Negro antiguo "no hacía nada" con tema oscuro. La clase doblada sube esta regla a (0,3,0) sin depender del orden de los
+   stylesheets. */
+.cv-container.cv-container[style*='--cv-page-bg'] {
+    background-color: var(--cv-page-bg);
+}
+
+.cv-container[style*='--cv-color-title'] .header h1 {
+    color: var(--cv-color-title);
+}
+
+.cv-container[style*='--cv-color-subtitle'] .header h2,
+.cv-container[style*='--cv-color-subtitle'] .sidebar-section h3,
+.cv-container[style*='--cv-color-subtitle'] .main-section h3,
+.cv-container[style*='--cv-color-subtitle'] .job-title,
+.cv-container[style*='--cv-color-subtitle'] .job-company,
+.cv-container[style*='--cv-color-subtitle'] .contact-info i {
+    color: var(--cv-color-subtitle);
+}
+.cv-container[style*='--cv-color-subtitle'] .main-section h3 {
+    border-left-color: var(--cv-color-subtitle);
+}
+.cv-container[style*='--cv-color-subtitle'] .profile-photo-placeholder {
+    border-color: var(--cv-color-subtitle);
+    color: var(--cv-color-subtitle);
+}
+
+.cv-container[style*='--cv-color-body'] .header p,
+.cv-container[style*='--cv-color-body'] .profile-text,
+.cv-container[style*='--cv-color-body'] .job-date,
+.cv-container[style*='--cv-color-body'] .job-details {
+    color: var(--cv-color-body);
+}
+
+.cv-container[style*='--cv-color-panel'] .contact-info div,
+.cv-container[style*='--cv-color-panel'] .list-clean,
+.cv-container[style*='--cv-color-panel'] .skills-container .skill-tag {
+    color: var(--cv-color-panel);
+}
+/* El texto de contacto va dentro de un <a> con color inline (blanco). Inline gana a la clase,
+   así que solo se puede pisar con !important.
+   Solo actúa cuando hay override de color de panel. */
+.cv-container[style*='--cv-color-panel'] .contact-info div a {
+    color: var(--cv-color-panel) !important;
+}
+
+body.edit-mode .cv-container {
+    overflow: visible;
+}
+
+/* Soporte explícito para [hidden]: es como se conmuta la visibilidad por idioma */
+.cv-container[hidden] {
+    display: none !important;
+}
+
+.sidebar {
+    width: 32%;
+    background-color: var(--sidebar-bg);
+    color: white;
+    padding: 30px 25px 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.profile-photo-placeholder {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    background-color: #34495e;
+    border-radius: 50%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--accent-color);
+    font-size: 40px;
+    color: var(--accent-color);
+    overflow: hidden;
+}
+
+.profile-photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Protección de imagen en vista propietario (no edit mode) */
+body.owner-view:not(.edit-mode) .profile-photo-placeholder img {
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.sidebar-section h3 {
+    color: var(--accent-color);
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 5px;
+}
+
+.contact-info div {
+    margin-bottom: 12px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-info i {
+    color: var(--accent-color);
+    width: 15px;
+}
+
+.list-clean {
+    list-style: none;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.list-clean li {
+    margin-bottom: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.main-content {
+    width: 68%;
+    padding: 40px;
+    color: var(--text-dark);
+}
+
+.header {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 32px;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.header h2 {
+    font-size: 16px;
+    color: var(--accent-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-style: italic;
+    color: #687576; /* Oscurecido de #7f8c8d (3.48:1 → fallaba AA); #687576 da 4.78:1 */
+    font-size: 13px;
+}
+
+.main-section {
+    margin-bottom: 25px;
+}
+
+.main-section h3 {
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-size: 16px;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 10px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.profile-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+    text-align: justify;
+}
+
+.job-item {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.job-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+}
+
+.job-company {
+    font-weight: 500;
+    color: var(--accent-color);
+}
+
+.job-date {
+    font-size: 12px;
+    color: #687576; /* Oscurecido de #7f8c8d (3.48:1 → fallaba AA); #687576 da 4.78:1 */
+    font-style: italic;
+}
+
+.job-details {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #555;
+    margin-top: 8px;
+    text-align: justify;
+}
+
+.job-details li {
+    margin-left: 18px;
+    margin-bottom: 8px;
+    position: relative;
+    /* Sin padding-right reservado — el control de eliminar es un overlay
+       fuera de la caja (edit-overlay), ya no ocupa hueco ni en vista ni en edición. */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.job-details .item-title {
+    font-weight: 700;
+    display: block;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
+.job-details .item-content {
+    font-weight: 400;
+    display: block;
+    width: 100%;
+}

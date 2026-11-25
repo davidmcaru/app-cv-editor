@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="es" class="force-light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="color-scheme" content="light dark" />
+        <!-- El editor completo: descarga, perfiles y guardado, siempre («showcase» lo haría escaparate) -->
+        <meta name="cv-mode" content="full" />
+        <meta
+            name="description"
+            content="CV editor that runs entirely in your browser: 12 themes, 4 layouts, 3 languages and a one-page PDF. No accounts, no server."
+        />
+        <title>CV Editor</title>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+        <!-- 🌓 Theme Detection + Dark Mode Critical CSS -->
+        <style>
+            html.dark-mode,
+            html.dark-mode body,
+            body.dark-mode {
+                background: #0a0a0a !important;
+                color: #e0e0e0 !important;
+                --color-background: #0a0a0a;
+                --color-background-rgb: 10, 10, 10;
+                --color-text-primary: #ffffff;
+                --color-text-secondary: #b0b0b0;
+                --color-accent: #bdf0ff;
+                --color-accent-rgb: 189, 240, 255;
+                --color-dark-blue: #e0e7ff;
+                --color-light-gray-bg: #1a1a1a;
+                --color-border: #333333;
+            }
+        </style>
+        <script>
+            (function () {
+                try {
+                    // Migración one-time del legacy `darkMode` → `theme-preference` (unificación de tema).
+                    var saved = localStorage.getItem('theme-preference');
+                    var legacy = localStorage.getItem('darkMode');
+                    if (!saved && legacy !== null) {
+                        saved = legacy === 'true' ? 'dark' : 'light';
+                        localStorage.setItem('theme-preference', saved);
+                    }
+                    try {
+                        localStorage.removeItem('darkMode');
+                    } catch (_e) {}
+
+                    var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    var shouldBeDark = saved === 'dark' || ((!saved || saved === 'auto') && systemDark);
+                    var root = document.documentElement;
+
+                    if (shouldBeDark) {
+                        root.classList.add('dark-mode', 'force-dark');
+                        root.classList.remove('force-light');
+                        root.style.backgroundColor = '#0a0a0a';
+                        root.style.colorScheme = 'dark';
+                    } else {
+                        root.classList.add('force-light');
+                        root.classList.remove('dark-mode', 'force-dark');
+                        root.style.colorScheme = 'only light';
+                    }
+
+                    var applyToBody = function () {
+                        if (shouldBeDark) {
+                            document.body.classList.add('dark-mode', 'force-dark');
+                            document.body.classList.remove('force-light');
+                        } else {
+                            document.body.classList.add('force-light');
+                            document.body.classList.remove('dark-mode', 'force-dark');
+                        }
+                    };
+                    if (document.body) {
+                        applyToBody();
+                    } else {
+                        document.addEventListener('DOMContentLoaded', applyToBody, { once: true });
+                    }
+                } catch (_e) {}
+            })();
+        </script>
+
+        <!-- Chrome de editor compartido: tokens ANTES de toolbar/actions -->
+        <link rel="stylesheet" href="/src/components/core/page-fade/page-fade.css" />
+        <link rel="stylesheet" href="/src/components/core/styles/reduced-motion.css" />
+        <link rel="stylesheet" href="/src/components/core/styles/editor-tokens.css" />
+        <link rel="stylesheet" href="/src/components/core/styles/editor-toolbar.css" />
+        <link rel="stylesheet" href="/src/components/core/styles/editor-actions.css" />
+        <link rel="stylesheet" href="/src/components/widgets/toast/toast.css" />
+        <link rel="stylesheet" href="/src/components/widgets/edit-overlay/edit-overlay.css" />
+        <link rel="stylesheet" href="/src/components/widgets/floating-format-toolbar/floating-format-toolbar.css" />
+        <link rel="stylesheet" href="/src/components/widgets/searchable-select/searchable-select.css" />
+        <link rel="stylesheet" href="/src/components/widgets/color-field/color-field.css" />
+        <link rel="stylesheet" href="/src/components/widgets/stepper-field/stepper-field.css" />
+        <link rel="stylesheet" href="/src/components/widgets/collapsible-section/collapsible-section.css" />
+        <link rel="stylesheet" href="/src/components/core/styles/editor-icon-btn.css" />
+        <link rel="stylesheet" href="/src/components/core/styles/editor-panel-header.css" />
+        <link rel="stylesheet" href="/src/components/widgets/flip-toggle/flip-toggle.css" />
+        <link rel="stylesheet" href="/src/components/widgets/saved-panel/saved-panel.css" />
+        <link rel="stylesheet" href="/src/components/widgets/dialog/dialog.css" />
+        <link rel="stylesheet" href="/src/components/widgets/panel-sheet/panel-sheet.css" />
+
+        <!-- CV Styles (Modular) -->
+        <link rel="stylesheet" href="/src/css/cv-base.css" />
+        <link rel="stylesheet" href="/src/css/cv-themes.css" />
+        <link rel="stylesheet" href="/src/css/cv-layout.css" />
+        <link rel="stylesheet" href="/src/css/cv-components.css" />
+        <link rel="stylesheet" href="/src/css/cv-edit-mode.css" />
+        <link rel="stylesheet" href="/src/css/cv-formats.css" />
+        <link rel="stylesheet" href="/src/css/cv-responsive.css" />
+        <link rel="stylesheet" href="/src/css/cv-print.css" />
+        <link rel="stylesheet" href="/src/css/cv-utils.css" />
+
+        <!-- La cabecera de la app -->
+        <link rel="stylesheet" href="/src/site/site-header.css" />
+        <link rel="stylesheet" href="/src/components/core/styles/lang-badge.css" />
+        <style>
+            :root {
+                --color-accent: #2570c2;
+                --color-accent-rgb: 37, 112, 194;
+                --color-dark-blue: #0a192f;
+                --color-background: #ffffff;
+                --color-text-primary: #1a1a1a;
+                --color-text-secondary: #666;
+                --header-height: 61px;
+            }
+            #header-placeholder {
+                display: block;
+                width: 100%;
+                margin-left: 0;
+                flex-shrink: 0;
+            }
+            /* Desktop: body vertical + fondo blanco */
+            body {
+                flex-direction: column;
+                align-items: center;
+                background-color: #ffffff;
+                padding-bottom: 0;
+            }
+            /* Entrada suave: ahora vía componente global page-fade (page-preload/page-ready). */
+            #cv-container {
+                margin: 40px 0;
+            }
+            /* Evitar doble padding del has-site-header en mobile (ya es flex) */
+            @media screen and (max-width: 1024px) {
+                #header-placeholder {
+                    width: 100%;
+                    margin-left: 0;
+                }
+                body {
+                    align-items: stretch;
+                }
+                #cv-container {
+                    margin: 0;
+                }
+            }
+            /* Tablet: aquí sí evitamos el padding-top del header porque lo ponemos en flow */
+            @media screen and (min-width: 729px) and (max-width: 1024px) {
+                body.has-site-header {
+                    padding-top: 0 !important;
+                }
+            }
+            body.dark-mode {
+                background-color: #0a0a0a;
+                --color-background: #0a0a0a;
+                --color-text-primary: #ffffff;
+                --color-text-secondary: #b0b0b0;
+                --color-dark-blue: #e0e7ff;
+                --color-accent: #bdf0ff;
+                --color-accent-rgb: 189, 240, 255;
+            }
+            /* ====== BREAKPOINT --bp (estándar del proyecto) ======
+               JS: components/core/breakpoint/get-bp.ts */
+            :root {
+                --bp: d;
+            }
+            @media (max-width: 1024px) {
+                :root {
+                    --bp: t;
+                }
+            }
+            @media (max-width: 728px) {
+                :root {
+                    --bp: m;
+                }
+            }
+            @media print {
+                #header-placeholder {
+                    display: none !important;
+                }
+                #cv-container {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+                body {
+                    justify-content: flex-start !important;
+                    padding: 0 !important;
+                    margin: 0 !important;
+                }
+            }
+        </style>
+    </head>
+    <body class="theme-navy lang-es page-preload has-site-header" data-page-fade="manual">
+        <!-- La cabecera de la app: su nombre, los ajustes, el tema y el enlace al código (src/site/) -->
+        <div id="header-placeholder">
+            <header class="site-header">
+                <div class="site-header__bar">
+                    <a class="site-header__brand" href="./">
+                        <img class="site-header__logo" src="/favicon.svg" alt="" width="32" height="32" />
+                        <span class="site-header__name">CV Editor</span>
+                    </a>
+                    <div class="site-header__actions">
+                        <button
+                            type="button"
+                            class="site-header__btn"
+                            id="siteSettingsToggle"
+                            aria-haspopup="dialog"
+                            aria-expanded="false"
+                            aria-controls="siteSettings"
+                            data-site-i18n-label="settings"
+                        >
+                            <i class="fas fa-gear" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="site-header__btn" id="theme-toggle">
+                            <i class="fas fa-moon" aria-hidden="true"></i>
+                        </button>
+                        <a
+                            class="site-header__btn"
+                            id="siteSource"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-site-i18n-label="source"
+                        >
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="site-settings" id="siteSettings" role="dialog" aria-labelledby="siteSettingsTitle" hidden>
+                    <h2 class="site-settings__title" id="siteSettingsTitle" data-site-i18n="settings">Ajustes</h2>
+                    <fieldset class="site-settings__group">
+                        <legend data-site-i18n="language">Idioma</legend>
+                        <div class="site-settings__options">
+                            <label>
+                                <input type="radio" name="site-idioma" value="es" />
+                                <span>Español</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="site-idioma" value="en" />
+                                <span>English</span>
+                            </label>
+                        </div>
+                        <p class="site-settings__help" data-site-i18n="languageHelp"></p>
+                    </fieldset>
+                    <fieldset class="site-settings__group">
+                        <legend data-site-i18n="theme">Tema</legend>
+                        <div class="site-settings__options">
+                            <label>
+                                <input type="radio" name="site-tema" value="light" />
+                                <span data-site-i18n="light"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="site-tema" value="dark" />
+                                <span data-site-i18n="dark"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="site-tema" value="auto" />
+                                <span data-site-i18n="auto"></span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="site-settings__group">
+                        <legend data-site-i18n="translation">Traducción automática</legend>
+                        <div class="site-settings__options">
+                            <label>
+                                <input type="radio" name="site-traduccion" value="ask" />
+                                <span data-site-i18n="ask"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="site-traduccion" value="granted" />
+                                <span data-site-i18n="granted"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="site-traduccion" value="denied" />
+                                <span data-site-i18n="denied"></span>
+                            </label>
+                        </div>
+                        <p class="site-settings__help" data-site-i18n="translationHelp"></p>
+                    </fieldset>
+                </div>
+            </header>
+        </div>
+
+        <nav
+            class="edt-toolbar"
+            id="cvToolbar"
+            role="toolbar"
+            aria-label="Herramientas del editor de CV"
+            data-i18n-aria="ariaToolbar"
+        >
+            <button id="langToggle" type="button" class="edt-toolbar__btn">
+                <i class="fas fa-language" aria-hidden="true"></i>
+                <span class="lang-badge lang-badge--es">ESP</span>
+            </button>
+            <span class="edt-toolbar__divider" aria-hidden="true"></span>
+
+            <!-- Config: maquetación (interlineado) — aplica en vivo, sin entrar en edición -->
+            <button id="configToggle" type="button" class="edt-toolbar__btn">
+                <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                <span class="edt-toolbar__label" data-i18n="lblConfig">Config</span>
+            </button>
+            <!-- Textos: tipografía/tamaño — ENTRA en edición inline -->
+            <button id="textToggle" type="button" class="edt-toolbar__btn edit-toggle-btn">
+                <i class="fas fa-font" aria-hidden="true"></i>
+                <span class="edt-toolbar__label" data-i18n="lblTextos">Textos</span>
+            </button>
+            <span class="edt-toolbar__divider" aria-hidden="true"></span>
+
+            <!-- Botón combinado Diseño -->
+            <button id="designToggle" type="button" class="edt-toolbar__btn">
+                <i class="fas fa-swatchbook" aria-hidden="true"></i>
+                <span class="edt-toolbar__label" data-i18n="designToggle">Diseño</span>
+            </button>
+
+            <!-- Botón unificado "Mis CVs": perfiles + compartir + guardados. Agrupado con
+                 Diseño. -->
+            <button id="myCvsToggle" type="button" class="edt-toolbar__btn">
+                <i class="fas fa-folder-open" aria-hidden="true"></i>
+                <span class="edt-toolbar__label" data-i18n="lblMisCvs">Guardados</span>
+            </button>
+            <span class="edt-toolbar__divider" aria-hidden="true"></span>
+
+            <!-- Deshacer / Rehacer: historial en memoria. Deshabilitados sin pila y
+                 durante la edición (manda el undo nativo). Atajos Ctrl+Z / Ctrl+Y (Ctrl+Shift+Z).
+                 Listeners en cv-event-bindings; estado disabled en cv-history. -->
+            <button
+                id="undoBtn"
+                type="button"
+                class="edt-toolbar__btn"
+                disabled
+                aria-label="Deshacer"
+                data-i18n-aria="ariaUndo"
+                title="Deshacer (Ctrl+Z)"
+                data-i18n-title="tipUndo"
+            >
+                <i class="fas fa-rotate-left" aria-hidden="true"></i>
+                <span class="edt-toolbar__label" data-i18n="lblUndo">Deshacer</span>
+            </button>
+            <button
+                id="redoBtn"
+                type="button"
+                class="edt-toolbar__btn"
+                disabled
+                aria-label="Rehacer"
+                data-i18n-aria="ariaRedo"
+                title="Rehacer (Ctrl+Y)"
+                data-i18n-title="tipRedo"
+            >
+                <i class="fas fa-rotate-right" aria-hidden="true"></i>
+                <span class="edt-toolbar__label" data-i18n="lblRedo">Rehacer</span>
+            </button>
+            <span class="edt-toolbar__divider" aria-hidden="true"></span>
+
+            <!-- "Más": agrupa Config, Guardados, Descargar,
+                 Restablecer estilos y Restaurar. Textos vive en la barra.
+                 Oculto en escritorio (CSS). -->
+            <button
+                id="cvMasToggle"
+                type="button"
+                class="edt-toolbar__btn cv-mas-toggle"
+                aria-label="Más opciones"
+                data-i18n-aria="ariaMas"
+                title="Más opciones"
+                data-i18n-title="tipMas"
+                aria-controls="cvMasPanel"
+                aria-expanded="false"
+            >
+                <i class="fas fa-ellipsis" aria-hidden="true"></i>
+                <span class="edt-toolbar__label" data-i18n="lblMas">Más</span>
+            </button>
+
+            <button id="downloadBtn" type="button" class="edt-toolbar__btn download-btn">
+                <i class="fas fa-download" aria-hidden="true"></i>
+                <span class="edt-toolbar__label">Descargar</span>
+            </button>
+            <span id="lastSavedIndicator" class="cv-save-indicator" aria-live="polite" aria-atomic="true"></span>
+        </nav>
+
+        <!-- Región aria-live para anuncios accesibles del editor -->
+        <div id="cvA11yLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+        <!-- Panel Plantillas de diseño (Desktop only) — mismo chrome que Config/Textos -->
+        <div id="designPickerPanel" class="cv-design-picker edt-sheet" hidden>
+            <div class="cv-design-picker-header">
+                <i class="fas fa-swatchbook" aria-hidden="true"></i>
+                <span data-i18n="designPanelTitle">Plantillas de diseño</span>
+            </div>
+
+            <!-- Diseño: Modo (Claro/Oscuro, alterna) + Formato (cicla los 4) -->
+            <div class="edt-section">
+                <div class="edt-section__header" data-acc-toggle>
+                    <h4 class="edt-section__title">
+                        <i class="fas fa-layer-group" aria-hidden="true"></i>
+                        <span data-i18n="designSectionDesign">Diseño</span>
+                    </h4>
+                    <span class="edt-section__chevron" aria-hidden="true">
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="cv-config-grid">
+                    <div class="cv-config-field">
+                        <label id="designModeLabel" data-i18n="designMode">Modo</label>
+                        <button
+                            type="button"
+                            class="edt-flip"
+                            id="designModeToggle"
+                            data-flip
+                            data-flip-off="Claro"
+                            data-flip-on="Oscuro"
+                            aria-pressed="false"
+                            aria-labelledby="designModeLabel"
+                        >
+                            <span class="edt-flip__label">Claro</span>
+                        </button>
+                    </div>
+                    <div class="cv-config-field">
+                        <label id="designFormatLabel" data-i18n="designFormat">Formato</label>
+                        <button
+                            type="button"
+                            class="edt-flip"
+                            id="designFormatToggle"
+                            aria-labelledby="designFormatLabel"
+                        >
+                            <span class="edt-flip__label">Moderno</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paleta de color -->
+            <div class="edt-section">
+                <div class="edt-section__header" data-acc-toggle>
+                    <h4 class="edt-section__title">
+                        <i class="fas fa-palette" aria-hidden="true"></i>
+                        <span data-i18n="designPalette">Paleta de color</span>
+                    </h4>
+                    <span class="edt-section__chevron" aria-hidden="true">
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </span>
+                </div>
+                <div
+                    id="designThemeSwatches"
+                    class="cv-design-theme-swatches"
+                    role="radiogroup"
+                    aria-label="Paletas de color"
+                    data-i18n-aria="ariaPalettes"
+                ></div>
+            </div>
+
+            <div class="cv-design-footer">
+                <button type="button" id="designCancelBtn" class="edt-action edt-action--cancel" data-i18n="lblCancel">
+                    Cancelar
+                </button>
+                <button type="button" id="designSaveBtn" class="edt-action edt-action--save" data-i18n="lblSave">
+                    Guardar
+                </button>
+            </div>
+        </div>
+
+        <div id="myCvsPanel" class="cv-design-picker cv-mycvs-panel edt-sheet" hidden>
+            <div class="cv-design-picker-header">
+                <i class="fas fa-folder-open" aria-hidden="true"></i>
+                <span data-i18n="panelMyCvsTitle">Mis CVs Guardados</span>
+            </div>
+
+            <!-- Barra: Compartir (modal con el código del CV actual) + Añadir por código.
+                 Guardar CV vive en la tarjeta "+" anclada de la cuadrícula.
+                 Chrome compartido .edt-saved-* (components/widgets/saved-panel). -->
+            <div class="edt-saved-topbar">
+                <button
+                    type="button"
+                    id="myCvsShareBtn"
+                    class="edt-saved-btn edt-saved-btn--primary"
+                    title="Compartir el código del CV actual"
+                    data-i18n-title="tipShare"
+                >
+                    <i class="fas fa-share-nodes" aria-hidden="true"></i>
+                    <span data-i18n="lblShare">Compartir</span>
+                </button>
+                <button type="button" id="myCvsImportBtn" class="edt-saved-btn">
+                    <i class="fas fa-code" aria-hidden="true"></i>
+                    <span data-i18n="lblImportByCode">Añadir por código</span>
+                </button>
+            </div>
+
+            <!-- Centro scrolleable: cuadrícula de CVs guardados -->
+            <div id="myCvsList" class="edt-saved-grid"></div>
+
+            <div class="cv-design-footer">
+                <button type="button" id="myCvsCancelBtn" class="edt-action edt-action--cancel">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                    <span data-i18n="lblCancel">Cancelar</span>
+                </button>
+                <button type="button" id="myCvsSaveConfirmBtn" class="edt-action edt-action--save">
+                    <i class="fas fa-check" aria-hidden="true"></i>
+                    <span data-i18n="lblSave">Guardar</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Panel "Más" (solo móvil): filas de acción. Bottom-sheet arrastrable como los demás. -->
+        <div id="cvMasPanel" class="cv-design-picker cv-mas-panel edt-sheet" hidden>
+            <div class="cv-design-picker-header">
+                <i class="fas fa-ellipsis" aria-hidden="true"></i>
+                <span data-i18n="masPanelTitle">Más opciones</span>
+            </div>
+            <div class="cv-mas__list">
+                <button type="button" class="cv-mas__row" data-mas-action="config">
+                    <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                    <span data-i18n="lblConfig">Config</span>
+                </button>
+                <button type="button" class="cv-mas__row" data-mas-action="mycvs">
+                    <i class="fas fa-folder-open" aria-hidden="true"></i>
+                    <span data-i18n="lblMisCvs">Guardados</span>
+                </button>
+                <button type="button" class="cv-mas__row" data-mas-action="download">
+                    <i class="fas fa-download" aria-hidden="true"></i>
+                    <span data-i18n="lblDownload">Descargar</span>
+                </button>
+                <button
+                    type="button"
+                    class="cv-mas__row"
+                    data-mas-action="reset-styles"
+                    title="Devuelve la apariencia al diseño original de este CV. Tu texto NO se toca."
+                    data-i18n-title="tipResetStyles"
+                >
+                    <i class="fas fa-eraser" aria-hidden="true"></i>
+                    <span data-i18n="lblResetStyles">Restablecer estilos</span>
+                </button>
+                <button
+                    type="button"
+                    class="cv-mas__row"
+                    data-mas-action="reset-all"
+                    title="Borra tu texto editado y los estilos, y recarga la plantilla original."
+                    data-i18n-title="tipResetAll"
+                >
+                    <i class="fas fa-rotate-left" aria-hidden="true"></i>
+                    <span data-i18n="lblResetAll">Restaurar</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="configPanel" class="cv-design-picker edt-sheet" hidden>
+            <div class="cv-design-picker-header">
+                <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                <span data-i18n="panelConfigTitle">Configuración</span>
+            </div>
+
+            <!-- Página: fondo + color de panel (orden: primero Fondo, despues Color de panel) -->
+            <div class="edt-section">
+                <div class="edt-section__header" data-acc-toggle>
+                    <h4 class="edt-section__title">
+                        <i class="fas fa-file-lines" aria-hidden="true"></i>
+                        <span data-i18n="sectionPage">Página</span>
+                    </h4>
+                    <button
+                        type="button"
+                        class="edt-section__reset"
+                        data-config-reset="colors"
+                        title="Restablecer página"
+                        data-i18n-title="tipResetPage"
+                        aria-label="Restablecer página"
+                        data-i18n-aria="tipResetPage"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                    </button>
+                    <span class="edt-section__chevron" aria-hidden="true">
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="cv-config-grid">
+                    <!-- Fondo del folio: color-field como el de panel —
+                         muestra reactivo el fondo de la plantilla aplicada y admite cualquier color
+                         (antes: flip Blanco/Negro que los temas oscuros pisaban por especificidad). -->
+                    <div class="cv-config-field">
+                        <label for="configPageBgColor" data-i18n="lblPageBg">Fondo</label>
+                        <input type="color" id="configPageBgColor" value="#ffffff" />
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="configSidebarColor" data-i18n="lblSidebarColor">Color de panel</label>
+                        <input type="color" id="configSidebarColor" value="#2d3436" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Espaciado -->
+            <div class="edt-section">
+                <div class="edt-section__header" data-acc-toggle>
+                    <h4 class="edt-section__title">
+                        <i class="fas fa-text-height" aria-hidden="true"></i>
+                        <span data-i18n="sectionSpacing">Espaciado</span>
+                    </h4>
+                    <button
+                        type="button"
+                        class="edt-section__reset"
+                        data-config-reset="spacing"
+                        title="Restablecer espaciado"
+                        data-i18n-title="tipResetSpacing"
+                        aria-label="Restablecer espaciado"
+                        data-i18n-aria="tipResetSpacing"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                    </button>
+                    <span class="edt-section__chevron" aria-hidden="true">
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="cv-config-grid">
+                    <div class="cv-config-field">
+                        <label for="configLineHeight" data-i18n="lblLineHeight">Interlineado</label>
+                        <div class="edt-stepper">
+                            <input
+                                type="number"
+                                id="configLineHeight"
+                                min="1"
+                                max="2"
+                                step="0.05"
+                                value="1.4"
+                                aria-label="Interlineado"
+                                data-i18n-aria="ariaLineHeight"
+                            />
+                            <div class="edt-stepper__btns">
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--minus"
+                                    data-stepper-adjust="-1"
+                                    aria-label="Disminuir interlineado"
+                                    data-i18n-aria="ariaLineHeightDec"
+                                >
+                                    −
+                                </button>
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--plus"
+                                    data-stepper-adjust="1"
+                                    aria-label="Aumentar interlineado"
+                                    data-i18n-aria="ariaLineHeightInc"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="configSectionGap" data-i18n="lblSectionGap">Entre secciones</label>
+                        <div class="edt-stepper">
+                            <input
+                                type="number"
+                                id="configSectionGap"
+                                min="0"
+                                max="60"
+                                step="2"
+                                value="24"
+                                aria-label="Espacio entre secciones"
+                                data-i18n-aria="ariaSectionGap"
+                            />
+                            <div class="edt-stepper__btns">
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--minus"
+                                    data-stepper-adjust="-1"
+                                    aria-label="Disminuir espacio entre secciones"
+                                    data-i18n-aria="ariaSectionGapDec"
+                                >
+                                    −
+                                </button>
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--plus"
+                                    data-stepper-adjust="1"
+                                    aria-label="Aumentar espacio entre secciones"
+                                    data-i18n-aria="ariaSectionGapInc"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-text-footer">
+                <button
+                    type="button"
+                    id="configResetStylesBtn"
+                    class="edt-action edt-action--restore"
+                    data-i18n="lblResetStyles"
+                    title="Devuelve la apariencia al diseño original de este CV. Tu texto NO se toca."
+                    data-i18n-title="tipResetStyles"
+                >
+                    Restablecer estilos
+                </button>
+                <button
+                    type="button"
+                    id="configResetAllBtn"
+                    class="edt-action edt-action--restore"
+                    data-i18n="lblResetAll"
+                    title="Borra tu texto editado y los estilos, y recarga la plantilla original."
+                    data-i18n-title="tipResetAll"
+                >
+                    Restaurar
+                </button>
+                <button type="button" id="configCancelBtn" class="edt-action edt-action--cancel" data-i18n="lblCancel">
+                    Cancelar
+                </button>
+                <button type="button" id="configSaveBtn" class="edt-action edt-action--save" data-i18n="lblSave">
+                    Guardar
+                </button>
+            </div>
+        </div>
+
+        <div id="textPanel" class="cv-design-picker edt-sheet" hidden>
+            <div class="cv-design-picker-header">
+                <i class="fas fa-font" aria-hidden="true"></i>
+                <span data-i18n="panelTextTitle">Texto</span>
+            </div>
+
+            <!-- Aviso móvil (solo ≤728px, cv-components.css): en móvil el panel es SOLO estilos —
+         la edición inline del folio requiere escritorio. Hijo directo
+         del panel + pinnedTop del panel-sheet (cv-controller) → queda ANCLADO bajo el asa,
+         no se va con el scroll del cuerpo. -->
+            <p class="cv-sheet-note">
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
+                <span data-i18n="noteTextMobileLimited">
+                    Función limitada en móvil: para editar el texto del CV, usa la versión de escritorio.
+                </span>
+            </p>
+
+            <!-- Tamaño y tipografía -->
+            <div class="edt-section">
+                <div class="edt-section__header" data-acc-toggle>
+                    <h4 class="edt-section__title">
+                        <i class="fas fa-text-height" aria-hidden="true"></i>
+                        <span data-i18n="sectionSizeTypo">Tamaño y tipografía</span>
+                    </h4>
+                    <button
+                        type="button"
+                        class="edt-section__reset"
+                        data-text-reset="typography"
+                        title="Restablecer tamaño y tipografía"
+                        data-i18n-title="tipResetTypo"
+                        aria-label="Restablecer tamaño y tipografía"
+                        data-i18n-aria="tipResetTypo"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                    </button>
+                    <span class="edt-section__chevron" aria-hidden="true">
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="cv-config-grid">
+                    <div class="cv-config-field">
+                        <label for="textSizeTitle" data-i18n="lblGroupTitle">Título</label>
+                        <div class="edt-stepper">
+                            <input
+                                type="number"
+                                id="textSizeTitle"
+                                min="20"
+                                max="48"
+                                step="1"
+                                value="32"
+                                aria-label="Tamaño del título en puntos"
+                                data-i18n-aria="ariaSizeTitle"
+                            />
+                            <div class="edt-stepper__btns">
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--minus"
+                                    data-stepper-adjust="-1"
+                                    aria-label="Disminuir"
+                                    data-i18n-aria="ariaDecrease"
+                                >
+                                    −
+                                </button>
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--plus"
+                                    data-stepper-adjust="1"
+                                    aria-label="Aumentar"
+                                    data-i18n-aria="ariaIncrease"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="textSizeSubtitle" data-i18n="lblGroupSubtitle">Subtítulos</label>
+                        <div class="edt-stepper">
+                            <input
+                                type="number"
+                                id="textSizeSubtitle"
+                                min="10"
+                                max="28"
+                                step="1"
+                                value="16"
+                                aria-label="Tamaño de los subtítulos en puntos"
+                                data-i18n-aria="ariaSizeSubtitle"
+                            />
+                            <div class="edt-stepper__btns">
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--minus"
+                                    data-stepper-adjust="-1"
+                                    aria-label="Disminuir"
+                                    data-i18n-aria="ariaDecrease"
+                                >
+                                    −
+                                </button>
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--plus"
+                                    data-stepper-adjust="1"
+                                    aria-label="Aumentar"
+                                    data-i18n-aria="ariaIncrease"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="textSizeBody" data-i18n="lblGroupBody">Cuerpo</label>
+                        <div class="edt-stepper">
+                            <input
+                                type="number"
+                                id="textSizeBody"
+                                min="8"
+                                max="20"
+                                step="0.5"
+                                value="13"
+                                aria-label="Tamaño del cuerpo en puntos"
+                                data-i18n-aria="ariaSizeBody"
+                            />
+                            <div class="edt-stepper__btns">
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--minus"
+                                    data-stepper-adjust="-1"
+                                    aria-label="Disminuir"
+                                    data-i18n-aria="ariaDecrease"
+                                >
+                                    −
+                                </button>
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--plus"
+                                    data-stepper-adjust="1"
+                                    aria-label="Aumentar"
+                                    data-i18n-aria="ariaIncrease"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="textSizePanel" data-i18n="lblGroupPanel">Cuerpo panel</label>
+                        <div class="edt-stepper">
+                            <input
+                                type="number"
+                                id="textSizePanel"
+                                min="8"
+                                max="20"
+                                step="0.5"
+                                value="13"
+                                aria-label="Tamaño del cuerpo del panel en puntos"
+                                data-i18n-aria="ariaSizePanel"
+                            />
+                            <div class="edt-stepper__btns">
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--minus"
+                                    data-stepper-adjust="-1"
+                                    aria-label="Disminuir"
+                                    data-i18n-aria="ariaDecrease"
+                                >
+                                    −
+                                </button>
+                                <button
+                                    type="button"
+                                    class="edt-stepper__btn edt-stepper__btn--plus"
+                                    data-stepper-adjust="1"
+                                    aria-label="Aumentar"
+                                    data-i18n-aria="ariaIncrease"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cv-config-field cv-tipo-field">
+                    <label for="textFontSelect" data-i18n="lblFontFamily">Tipografía</label>
+                    <select
+                        id="textFontSelect"
+                        class="cv-ss"
+                        data-ss-font-preview
+                        aria-label="Tipografía"
+                        data-i18n-aria="ariaFontFamily"
+                    >
+                        <optgroup label="Sans-serif">
+                            <option value="'Roboto', sans-serif">Roboto</option>
+                            <option value="'Lato', sans-serif">Lato</option>
+                            <option value="'Open Sans', sans-serif">Open Sans</option>
+                        </optgroup>
+                        <optgroup label="Serif">
+                            <option value="'Merriweather', serif">Merriweather</option>
+                            <option value="'Playfair Display', serif">Playfair Display</option>
+                            <option value="'Noto Serif', serif">Noto Serif</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Colores de texto -->
+            <div class="edt-section">
+                <div class="edt-section__header" data-acc-toggle>
+                    <h4 class="edt-section__title">
+                        <i class="fas fa-palette" aria-hidden="true"></i>
+                        <span data-i18n="sectionTextColors">Colores de texto</span>
+                    </h4>
+                    <button
+                        type="button"
+                        class="edt-section__reset"
+                        data-text-reset="colors"
+                        title="Restablecer colores de texto"
+                        data-i18n-title="tipResetTextColors"
+                        aria-label="Restablecer colores de texto"
+                        data-i18n-aria="tipResetTextColors"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                    </button>
+                    <span class="edt-section__chevron" aria-hidden="true">
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="cv-config-grid">
+                    <div class="cv-config-field">
+                        <label for="textColorTitle" data-i18n="lblGroupTitle">Título</label>
+                        <input type="color" id="textColorTitle" value="#2d3436" />
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="textColorSubtitle" data-i18n="lblGroupSubtitle">Subtítulos</label>
+                        <input type="color" id="textColorSubtitle" value="#b38f00" />
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="textColorBody" data-i18n="lblGroupBody">Cuerpo</label>
+                        <input type="color" id="textColorBody" value="#555555" />
+                    </div>
+                    <div class="cv-config-field">
+                        <label for="textColorPanel" data-i18n="lblGroupPanel">Cuerpo panel</label>
+                        <input type="color" id="textColorPanel" value="#ffffff" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-design-footer">
+                <button type="button" id="textCancelBtn" class="edt-action edt-action--cancel" data-i18n="lblCancel">
+                    Cancelar
+                </button>
+                <button type="button" id="textSaveBtn" class="edt-action edt-action--save" data-i18n="lblSave">
+                    Guardar
+                </button>
+            </div>
+        </div>
+
+        <!-- Popup para editar enlaces -->
+        <div id="linkEditorPopup" class="link-editor-popup">
+            <label for="linkText" data-i18n="lblLinkText">Texto visible:</label>
+            <input type="text" id="linkText" placeholder="Texto del enlace" data-i18n="phLinkText" />
+            <label for="linkUrl" data-i18n="lblLinkUrl">URL del enlace:</label>
+            <input type="text" id="linkUrl" placeholder="https://..." />
+            <div class="btn-row">
+                <button type="button" class="btn-cancel" data-i18n="lblCancel">Cancelar</button>
+                <button type="button" class="btn-save" data-i18n="lblSave">Guardar</button>
+            </div>
+        </div>
+
+        <!-- Input oculto para cambiar imagenes -->
+        <input type="file" id="imageFileInput" class="hidden-file-input" accept="image/*" />
+
+        <!-- Menu de opciones para imagenes -->
+        <div id="imageOptionsMenu" class="image-options-menu">
+            <button type="button" data-action="change">
+                <i class="fas fa-upload"></i>
+                <span data-i18n="lblChangeImage">Cambiar imagen</span>
+            </button>
+            <button type="button" data-action="edit-link">
+                <i class="fas fa-link"></i>
+                <span data-i18n="lblEditImageLink">Editar enlace</span>
+            </button>
+            <button type="button" class="btn-restore" data-action="restore">
+                <i class="fas fa-undo"></i>
+                <span data-i18n="lblRestoreImage">Restablecer</span>
+            </button>
+            <button type="button" class="btn-remove" data-action="remove">
+                <i class="fas fa-trash"></i>
+                <span data-i18n="lblRemoveImage">Quitar imagen</span>
+            </button>
+        </div>
+
+        <!-- Contenedor principal - Se genera dinamicamente desde JSON -->
+        <div id="cv-container"></div>
+
+        <!-- Chip de desbordamiento A4 en edición (el folio es SIEMPRE una cara; ver cv-layout.css) -->
+        <div
+            id="cvA4OverflowWarning"
+            class="cv-a4-warning"
+            role="status"
+            title="Lo que sobresale del folio no saldrá en el PDF (el CV es siempre una cara A4)"
+            data-i18n-title="tipA4Overflow"
+            hidden
+        >
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            <span data-i18n="lblA4Overflow">El contenido excede el A4</span>
+        </div>
+
+        <!-- Templates de items dinámicos (clonado en lugar de innerHTML) -->
+        <template id="tpl-skill-tag">
+            <span class="skill-tag"><span class="tag-text" data-editable></span></span>
+        </template>
+        <template id="tpl-list-item-language">
+            <li>
+                <strong data-editable></strong>
+                <span data-editable></span>
+            </li>
+        </template>
+        <template id="tpl-list-item-generic">
+            <li>
+                <span class="list-text" data-editable></span>
+            </li>
+        </template>
+        <template id="tpl-job-detail">
+            <li>
+                <span class="item-title" data-editable></span>
+                <span class="item-content" data-editable></span>
+            </li>
+        </template>
+        <template id="tpl-experience-item">
+            <div class="job-item">
+                <div class="job-header">
+                    <div>
+                        <span class="job-title" data-editable></span>
+                        |
+                        <span class="job-company" data-editable></span>
+                    </div>
+                    <span class="job-date" data-editable></span>
+                </div>
+                <ul class="job-details" data-editable-job-list>
+                    <li>
+                        <span class="item-title" data-editable></span>
+                        <span class="item-content" data-editable></span>
+                    </li>
+                </ul>
+            </div>
+        </template>
+        <template id="tpl-education-item">
+            <div class="job-item">
+                <div class="job-header">
+                    <span class="job-title" data-editable></span>
+                    <span class="job-date" data-editable></span>
+                </div>
+                <div class="job-details" style="margin-left: 0" data-editable></div>
+            </div>
+        </template>
+
+        <script type="module" src="/src/site/site-header.ts"></script>
+        <script type="module" src="/src/cv/cv-controller.ts"></script>
+        <script type="module" src="/src/components/core/theme/theme-toggle.ts"></script>
+    </body>
+</html>

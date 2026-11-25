@@ -1,0 +1,29 @@
+.edt-flip {
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 14px;
+    border: 2px solid var(--edt-tgl-border, rgba(120, 120, 120, 0.25));
+    border-radius: 8px;
+    background: var(--edt-tgl-bg, rgba(120, 120, 120, 0.08));
+    color: var(--edt-tgl-text, #666);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+.edt-flip:not(.is-active):hover {
+    background: var(--edt-tgl-hover-bg, rgba(74, 144, 217, 0.12));
+    border-color: var(--edt-tgl-hover-border, rgba(74, 144, 217, 0.35));
+    color: var(--edt-tgl-accent, #4a90d9);
+}
+.edt-flip.is-active {
+    background: var(--edt-tgl-active-bg, rgba(74, 144, 217, 0.18));
+    border-color: var(--edt-tgl-active-border, rgba(74, 144, 217, 0.5));
+    color: var(--edt-tgl-accent, #4a90d9);
+}

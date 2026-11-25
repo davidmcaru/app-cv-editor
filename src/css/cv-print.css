@@ -1,0 +1,247 @@
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    html,
+    body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+        background: white;
+        overflow: hidden;
+    }
+
+    /* DECISIÓN DE PRODUCTO: el PDF es SIEMPRE una cara
+       A4 — "un buen CV es una cara de folio". Lo que no cabe se recorta A PROPÓSITO;
+       el límite es visible en pantalla (folio A4 fijo + desbordamiento fuera del
+       folio + aviso en edición). NO "arreglar" esto haciendo el print multipágina. */
+    .cv-container {
+        box-shadow: none;
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0;
+        overflow: hidden;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+
+    .sidebar {
+        background-color: var(--sidebar-bg) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body:not([class*='theme-dark-']).format-harvard .sidebar {
+        background-color: white !important;
+        color: var(--text-dark) !important;
+    }
+
+    body.format-harvard .cv-container {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    body:not([class*='theme-dark-']).format-ats .sidebar {
+        background-color: white !important;
+        color: #333 !important;
+    }
+
+    body.format-ats .cv-container {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        transform: scale(0.9);
+        transform-origin: top center;
+    }
+
+    body.format-ats .sidebar .skill-tag {
+        display: inline !important;
+        background: none !important;
+    }
+
+    body.format-ats .sidebar .skill-tag::after {
+        content: ' \2022  ' !important;
+    }
+
+    body.format-ats .sidebar .skill-tag:last-of-type::after {
+        content: '' !important;
+    }
+
+    body.format-ats .sidebar .list-clean li {
+        display: inline !important;
+    }
+
+    body.format-ats .sidebar .list-clean li::after {
+        content: ' \2022  ' !important;
+    }
+
+    body.format-ats .sidebar .list-clean li:last-child::after {
+        content: '' !important;
+    }
+
+    /* Las competencias traen su «• » en el texto: sin esto, dos viñetas. Igual en cv-formats.css */
+    body.format-ats .sidebar .list-clean li:has(> .list-text):not(:last-child)::after {
+        content: '\00a0\00a0 ' !important;
+    }
+
+    /* Reducir espacios en ATS */
+    body.format-ats .main-section {
+        margin-top: 8px !important;
+    }
+
+    body.format-ats .main-section:first-child {
+        margin-top: 0 !important;
+    }
+
+    body.format-ats .sidebar .sidebar-section {
+        margin-bottom: 8px !important;
+    }
+
+    body.format-ats .sidebar {
+        padding-top: 0 !important;
+    }
+
+    body:not([class*='theme-dark-']).format-minimal .sidebar {
+        background-color: #fafafa !important;
+        color: #333 !important;
+    }
+
+    body[class*='theme-dark-'].format-harvard .sidebar {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        color: var(--text-dark) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+
+    body[class*='theme-dark-'].format-harvard .sidebar .contact-info a,
+    body[class*='theme-dark-'].format-harvard .sidebar .contact-info div,
+    body[class*='theme-dark-'].format-harvard .sidebar .list-clean li,
+    body[class*='theme-dark-'].format-harvard .profile-text,
+    body[class*='theme-dark-'].format-harvard .job-details li {
+        color: rgba(230, 236, 240, 0.92) !important;
+    }
+
+    body[class*='theme-dark-'].format-harvard .sidebar .skill-tag {
+        background-color: rgba(255, 255, 255, 0.12) !important;
+        color: rgba(230, 236, 240, 0.95) !important;
+    }
+
+    body[class*='theme-dark-'].format-ats .sidebar {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        color: var(--text-dark) !important;
+    }
+
+    body[class*='theme-dark-'].format-ats .cv-container {
+        transform: none !important;
+        width: 210mm !important;
+        background-color: var(--sidebar-bg) !important;
+        overflow: hidden !important;
+    }
+
+    body[class*='theme-dark-'].format-ats .main-content {
+        background-color: var(--sidebar-bg) !important;
+    }
+
+    body[class*='theme-dark-'].format-ats .header {
+        border-bottom-color: rgba(255, 255, 255, 0.18) !important;
+    }
+
+    body[class*='theme-dark-'].format-ats .header h1,
+    body[class*='theme-dark-'].format-ats .main-section h3,
+    body[class*='theme-dark-'].format-ats .job-title,
+    body[class*='theme-dark-'].format-ats .sidebar .sidebar-section h3 {
+        color: var(--text-dark) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body[class*='theme-dark-'].format-ats .header h2,
+    body[class*='theme-dark-'].format-ats .job-company,
+    body[class*='theme-dark-'].format-ats .job-details li,
+    body[class*='theme-dark-'].format-ats .profile-text,
+    body[class*='theme-dark-'].format-ats .sidebar .contact-info div,
+    body[class*='theme-dark-'].format-ats .sidebar .contact-info a,
+    body[class*='theme-dark-'].format-ats .sidebar .skill-tag,
+    body[class*='theme-dark-'].format-ats .sidebar .list-clean li {
+        color: rgba(230, 236, 240, 0.9) !important;
+    }
+
+    body[class*='theme-dark-'].format-minimal .sidebar {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        color: var(--text-dark) !important;
+        border-top-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    body[class*='theme-dark-'].format-minimal .header h1,
+    body[class*='theme-dark-'].format-minimal .job-title {
+        color: var(--text-dark) !important;
+    }
+
+    body[class*='theme-dark-'].format-minimal .header h2,
+    body[class*='theme-dark-'].format-minimal .header p,
+    body[class*='theme-dark-'].format-minimal .main-section h3,
+    body[class*='theme-dark-'].format-minimal .job-company,
+    body[class*='theme-dark-'].format-minimal .job-date,
+    body[class*='theme-dark-'].format-minimal .job-details li,
+    body[class*='theme-dark-'].format-minimal .profile-text,
+    body[class*='theme-dark-'].format-minimal .sidebar .sidebar-section h3,
+    body[class*='theme-dark-'].format-minimal .sidebar .contact-info div,
+    body[class*='theme-dark-'].format-minimal .sidebar .contact-info a,
+    body[class*='theme-dark-'].format-minimal .sidebar .skill-tag,
+    body[class*='theme-dark-'].format-minimal .sidebar .list-clean li {
+        color: rgba(230, 236, 240, 0.9) !important;
+    }
+
+    body[class*='theme-dark-'].format-minimal .sidebar .skill-tag {
+        border-color: rgba(255, 255, 255, 0.28) !important;
+    }
+
+    body.format-minimal .cv-container {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    .edt-toolbar,
+    .edit-toggle-btn,
+    .save-btn,
+    .download-btn,
+    .cancel-edit-btn,
+    .link-editor-popup,
+    .image-options-menu,
+    .edt-crud-overlay,
+    .edt-addbar,
+    .cv-a4-warning,
+    /* Paneles del editor (Textos/Config/Diseño/Mis CVs/«Más»): comparten .cv-design-picker.
+       El botón Descargar los cierra antes de imprimir, pero un Ctrl+P con un panel abierto
+       los metía en el PDF. */
+    .cv-design-picker,
+    /* La barra B/I/U oculta sigue ocupando sitio: más allá del folio (ventana ancha) encogía el CV entero */
+    .floating-format-toolbar {
+        display: none !important;
+    }
+
+    #cv-container {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    [data-editable] {
+        outline: none !important;
+    }
+
+    /* Ocultar CVs no visibles (legacy + atributo hidden) */
+    .cv-container[style*='display: none'],
+    .cv-container[hidden] {
+        display: none !important;
+    }
+}

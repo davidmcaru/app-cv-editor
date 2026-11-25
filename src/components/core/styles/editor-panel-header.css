@@ -1,0 +1,21 @@
+.cv-design-picker-header,
+.postal-panel__header {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.cv-design-picker-header,
+.postal-panel__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.cv-design-picker-header i,
+.postal-panel__title i {
+    font-size: 12px;
+    opacity: 0.75;
+    width: 16px;
+    text-align: center;
+}

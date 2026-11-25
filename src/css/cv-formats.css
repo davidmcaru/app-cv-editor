@@ -1,0 +1,708 @@
+body.format-harvard .cv-container {
+    flex-direction: column;
+}
+
+body.format-harvard .sidebar {
+    width: 100%;
+    background-color: white;
+    color: var(--text-dark);
+    padding: 15px 50px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px 30px;
+    border-bottom: none;
+    border-top: none;
+    order: 2;
+}
+
+body.format-harvard .main-content {
+    order: 1;
+    width: 100%;
+    padding: 25px 50px 15px 50px;
+}
+
+body.format-harvard .sidebar .profile-photo-placeholder {
+    display: none;
+}
+
+body.format-harvard .sidebar .sidebar-section:nth-child(2) {
+    order: 2;
+    flex: 1;
+    min-width: 150px;
+}
+body.format-harvard .sidebar .sidebar-section:nth-child(3) {
+    order: 3;
+    flex: 2;
+    min-width: 200px;
+}
+body.format-harvard .sidebar .sidebar-section:nth-child(4) {
+    order: 4;
+    flex: 1;
+    min-width: 150px;
+}
+body.format-harvard .sidebar .sidebar-section:nth-child(5) {
+    order: 1;
+    width: 100%;
+    flex-basis: 100%;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+body.format-harvard .sidebar .sidebar-section:nth-child(5) ul {
+    display: flex;
+    gap: 20px;
+}
+
+body.format-harvard .sidebar .sidebar-section:nth-child(5) li {
+    margin-bottom: 0;
+}
+
+body.format-harvard .sidebar .sidebar-section h3 {
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-size: 12px;
+    border-left: none;
+    padding-left: 0;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+body.format-harvard .sidebar .contact-info i {
+    color: var(--primary-color);
+}
+
+body.format-harvard .sidebar .contact-info a {
+    color: var(--text-dark) !important;
+}
+
+body.format-harvard .sidebar .contact-info div {
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+body.format-harvard .sidebar .skill-tag {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: var(--text-dark);
+    font-size: 10px;
+    padding: 2px 6px;
+    margin-bottom: 4px;
+}
+
+body.format-harvard .sidebar .list-clean li {
+    color: var(--text-dark);
+    font-size: 11px;
+}
+
+body.format-harvard .sidebar .list-clean strong {
+    color: var(--primary-color);
+}
+
+body.format-harvard .sidebar .qr-section,
+body.format-harvard .sidebar > div:last-child img,
+body.format-harvard .sidebar > div:last-child {
+    display: none;
+}
+
+body.format-harvard .header {
+    text-align: center;
+    border-bottom: none;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+body.format-harvard .header h1 {
+    font-size: 24px;
+    margin-bottom: 3px;
+}
+
+body.format-harvard .header h2 {
+    font-size: 12px;
+}
+
+body.format-harvard .header p {
+    font-size: 11px;
+}
+
+body.format-harvard .main-section {
+    margin-bottom: 20px;
+}
+
+body.format-harvard .main-section h3 {
+    border-left: none;
+    padding-left: 0;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 4px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+body.format-harvard .job-item {
+    margin-bottom: 12px;
+    padding-left: 0;
+}
+
+body.format-harvard .job-header {
+    font-size: 11px;
+}
+
+body.format-harvard .job-title {
+    font-size: 12px;
+}
+
+body.format-harvard .job-details li {
+    font-size: 11px;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+body.format-harvard .profile-text {
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+body.format-ats .cv-container {
+    flex-direction: column;
+}
+
+body.format-ats .sidebar {
+    width: 100%;
+    background-color: white;
+    color: var(--text-dark);
+    padding: 0 40px 20px 40px;
+    flex-direction: column;
+    gap: 15px;
+    order: 2;
+}
+
+body.format-ats .main-content {
+    order: 1;
+    width: 100%;
+    padding: 30px 40px 5px 40px;
+}
+
+body.format-ats .sidebar .profile-photo-placeholder,
+body.format-ats .sidebar .qr-section,
+body.format-ats .sidebar > div:last-child {
+    display: none;
+}
+
+body.format-ats .header {
+    text-align: left;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+body.format-ats .header h1 {
+    font-size: 22px;
+    color: #000;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+body.format-ats .header h2 {
+    font-size: 14px;
+    color: #333;
+    font-weight: 400;
+    text-transform: none;
+}
+
+body.format-ats .header p {
+    display: none;
+}
+
+body.format-ats .main-section {
+    margin-top: 12px;
+}
+
+body.format-ats .main-section:first-child {
+    margin-top: 0;
+}
+
+body.format-ats .main-section h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #000;
+    border-left: none;
+    padding-left: 0;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    margin-bottom: 12px;
+    letter-spacing: 0;
+}
+
+body.format-ats .job-item {
+    margin-bottom: 15px;
+}
+
+body.format-ats .job-title {
+    font-size: 13px;
+    color: #000;
+}
+
+body.format-ats .job-company {
+    color: #333;
+}
+
+body.format-ats .job-details li {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #333;
+}
+
+body.format-ats .profile-text {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #333;
+}
+
+body.format-ats .sidebar .sidebar-section {
+    margin-bottom: 10px;
+}
+
+body.format-ats .sidebar .sidebar-section h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #000;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+body.format-ats .sidebar .contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 25px;
+}
+
+body.format-ats .sidebar .contact-info div {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 0;
+}
+
+body.format-ats .sidebar .contact-info i {
+    display: none;
+}
+
+body.format-ats .sidebar .contact-info a {
+    color: #333 !important;
+    text-decoration: none;
+}
+
+body.format-ats .sidebar .skill-tag {
+    background: none;
+    padding: 0;
+    font-size: 12px;
+    color: #333;
+    display: inline;
+    margin: 0;
+}
+
+body.format-ats .sidebar .skill-tag .tag-text {
+    display: inline;
+}
+
+body.format-ats .sidebar .skill-tag::after {
+    content: ' \2022  ';
+}
+
+body.format-ats .sidebar .skill-tag:last-of-type::after {
+    content: '';
+}
+
+body.format-ats .sidebar .skills-container {
+    line-height: 1.8;
+}
+
+body.format-ats .sidebar .list-clean {
+    display: block;
+}
+
+body.format-ats .sidebar .list-clean li {
+    color: #333;
+    font-size: 12px;
+    display: inline;
+}
+
+body.format-ats .sidebar .list-clean li .list-text {
+    display: inline;
+}
+
+body.format-ats .sidebar .list-clean li::after {
+    content: ' \2022  ';
+}
+
+body.format-ats .sidebar .list-clean li:last-child::after {
+    content: '';
+}
+
+/* Las competencias ya traen «• » en el texto: el separador sería una segunda viñeta. También en cv-print.css */
+body.format-ats .sidebar .list-clean li:has(> .list-text):not(:last-child)::after {
+    content: '\00a0\00a0 ';
+}
+
+body.format-minimal .cv-container {
+    flex-direction: column;
+}
+
+body.format-minimal .sidebar {
+    width: 100%;
+    background-color: #fafafa;
+    color: #333;
+    padding: 25px 50px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+    order: 2;
+    border-top: 1px solid #e0e0e0;
+}
+
+body.format-minimal .main-content {
+    order: 1;
+    width: 100%;
+    padding: 40px 50px 25px 50px;
+}
+
+body.format-minimal .sidebar .profile-photo-placeholder,
+body.format-minimal .sidebar .qr-section,
+body.format-minimal .sidebar > div:last-child {
+    display: none;
+}
+
+body.format-minimal .header {
+    text-align: center;
+    border-bottom: none;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+body.format-minimal .header h1 {
+    font-size: 28px;
+    color: #1a1a1a;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+body.format-minimal .header h2 {
+    font-size: 12px;
+    color: #666;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 8px;
+}
+
+body.format-minimal .header p {
+    font-size: 11px;
+    color: #888;
+    font-style: normal;
+    margin-top: 15px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body.format-minimal .main-section {
+    margin-bottom: 25px;
+}
+
+body.format-minimal .main-section h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #999;
+    border-left: none;
+    padding-left: 0;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    font-weight: 400;
+}
+
+body.format-minimal .job-item {
+    margin-bottom: 18px;
+}
+
+body.format-minimal .job-header {
+    margin-bottom: 8px;
+}
+
+body.format-minimal .job-title {
+    font-size: 13px;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+body.format-minimal .job-company {
+    color: #666;
+}
+
+body.format-minimal .job-date {
+    color: #999;
+}
+
+body.format-minimal .job-details li {
+    font-size: 11px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+body.format-minimal .profile-text {
+    font-size: 11px;
+    line-height: 1.7;
+    color: #555;
+}
+
+body.format-minimal .sidebar .sidebar-section {
+    flex: 1;
+    min-width: 140px;
+}
+
+body.format-minimal .sidebar .sidebar-section h3 {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-weight: 400;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+body.format-minimal .sidebar .contact-info div {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+body.format-minimal .sidebar .contact-info i {
+    display: none;
+}
+
+body.format-minimal .sidebar .contact-info a {
+    color: #555 !important;
+}
+
+body.format-minimal .sidebar .skill-tag {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 3px 8px;
+    font-size: 10px;
+    color: #666;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+body.format-minimal .sidebar .list-clean li {
+    color: #555;
+    font-size: 11px;
+    margin-bottom: 2px;
+    line-height: 1.4;
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .header {
+    border-bottom-color: var(--accent-color);
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .header h1,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .main-section h3,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .job-title,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .sidebar .sidebar-section h3 {
+    color: var(--primary-color);
+    border-bottom-color: var(--accent-color);
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .header h2,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .job-company {
+    color: var(--accent-color);
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .job-details li,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .profile-text,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .sidebar,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .sidebar .contact-info div,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .sidebar .contact-info a,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .sidebar .skill-tag,
+body:not([class*='theme-dark-']):not(.theme-navy).format-ats .sidebar .list-clean li {
+    color: var(--text-dark) !important;
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .header h1,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .job-title {
+    color: var(--primary-color);
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .header h2,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .main-section h3,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .sidebar .sidebar-section h3,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .job-company {
+    color: var(--accent-color);
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .header p,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .job-date,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .job-details li,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .profile-text,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .sidebar,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .sidebar .contact-info div,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .sidebar .contact-info a,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .sidebar .skill-tag,
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .sidebar .list-clean li {
+    color: var(--text-dark) !important;
+}
+
+body:not([class*='theme-dark-']):not(.theme-navy).format-minimal .sidebar .skill-tag {
+    border-color: var(--accent-color);
+}
+
+body.theme-navy.format-ats .header h1,
+body.theme-navy.format-ats .main-section h3,
+body.theme-navy.format-ats .job-title,
+body.theme-navy.format-ats .sidebar .sidebar-section h3 {
+    color: #000;
+}
+
+body.theme-navy.format-ats .header,
+body.theme-navy.format-ats .main-section h3,
+body.theme-navy.format-ats .sidebar .sidebar-section h3 {
+    border-bottom-color: #333;
+}
+
+body.theme-navy.format-ats .header h2,
+body.theme-navy.format-ats .job-company,
+body.theme-navy.format-ats .job-details li,
+body.theme-navy.format-ats .profile-text,
+body.theme-navy.format-ats .sidebar,
+body.theme-navy.format-ats .sidebar .contact-info div,
+body.theme-navy.format-ats .sidebar .contact-info a,
+body.theme-navy.format-ats .sidebar .skill-tag,
+body.theme-navy.format-ats .sidebar .list-clean li {
+    color: #333 !important;
+}
+
+body.theme-navy.format-minimal .header h1,
+body.theme-navy.format-minimal .job-title {
+    color: #1a1a1a;
+}
+
+body.theme-navy.format-minimal .header h2,
+body.theme-navy.format-minimal .main-section h3,
+body.theme-navy.format-minimal .sidebar .sidebar-section h3,
+body.theme-navy.format-minimal .job-date,
+body.theme-navy.format-minimal .job-company,
+body.theme-navy.format-minimal .sidebar .skill-tag {
+    color: #666;
+}
+
+body.theme-navy.format-minimal .header p,
+body.theme-navy.format-minimal .job-details li,
+body.theme-navy.format-minimal .profile-text,
+body.theme-navy.format-minimal .sidebar,
+body.theme-navy.format-minimal .sidebar .contact-info div,
+body.theme-navy.format-minimal .sidebar .contact-info a,
+body.theme-navy.format-minimal .sidebar .list-clean li {
+    color: #555 !important;
+}
+
+body.theme-navy.format-minimal .sidebar .skill-tag {
+    border-color: #ddd;
+}
+
+/* Evita zonas claras cuando se combina theme-dark-* con Harvard / ATS / Minimal */
+
+body[class*='theme-dark-'].format-harvard .sidebar {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body[class*='theme-dark-'].format-harvard .sidebar .contact-info a,
+body[class*='theme-dark-'].format-harvard .sidebar .contact-info div,
+body[class*='theme-dark-'].format-harvard .sidebar .list-clean li,
+body[class*='theme-dark-'].format-harvard .profile-text,
+body[class*='theme-dark-'].format-harvard .job-details li {
+    color: rgba(230, 236, 240, 0.92) !important;
+}
+
+body[class*='theme-dark-'].format-harvard .sidebar .skill-tag {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: rgba(230, 236, 240, 0.95);
+}
+
+body[class*='theme-dark-'].format-ats .sidebar {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-dark);
+}
+
+body[class*='theme-dark-'].format-ats .cv-container {
+    background-color: var(--sidebar-bg);
+}
+
+body[class*='theme-dark-'].format-ats .main-content {
+    background-color: var(--sidebar-bg);
+}
+
+body[class*='theme-dark-'].format-ats .header {
+    border-bottom-color: rgba(255, 255, 255, 0.18);
+}
+
+body[class*='theme-dark-'].format-ats .header h1,
+body[class*='theme-dark-'].format-ats .main-section h3,
+body[class*='theme-dark-'].format-ats .job-title,
+body[class*='theme-dark-'].format-ats .sidebar .sidebar-section h3 {
+    color: var(--text-dark);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+body[class*='theme-dark-'].format-ats .header h2,
+body[class*='theme-dark-'].format-ats .job-company,
+body[class*='theme-dark-'].format-ats .job-details li,
+body[class*='theme-dark-'].format-ats .profile-text,
+body[class*='theme-dark-'].format-ats .sidebar .contact-info div,
+body[class*='theme-dark-'].format-ats .sidebar .contact-info a,
+body[class*='theme-dark-'].format-ats .sidebar .skill-tag,
+body[class*='theme-dark-'].format-ats .sidebar .list-clean li {
+    color: rgba(230, 236, 240, 0.9) !important;
+}
+
+body[class*='theme-dark-'].format-minimal .sidebar {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-dark);
+    border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+body[class*='theme-dark-'].format-minimal .header h1,
+body[class*='theme-dark-'].format-minimal .job-title {
+    color: var(--text-dark);
+}
+
+body[class*='theme-dark-'].format-minimal .header h2,
+body[class*='theme-dark-'].format-minimal .header p,
+body[class*='theme-dark-'].format-minimal .main-section h3,
+body[class*='theme-dark-'].format-minimal .job-company,
+body[class*='theme-dark-'].format-minimal .job-date,
+body[class*='theme-dark-'].format-minimal .job-details li,
+body[class*='theme-dark-'].format-minimal .profile-text,
+body[class*='theme-dark-'].format-minimal .sidebar .sidebar-section h3,
+body[class*='theme-dark-'].format-minimal .sidebar .contact-info div,
+body[class*='theme-dark-'].format-minimal .sidebar .contact-info a,
+body[class*='theme-dark-'].format-minimal .sidebar .skill-tag,
+body[class*='theme-dark-'].format-minimal .sidebar .list-clean li {
+    color: rgba(230, 236, 240, 0.9) !important;
+}
+
+body[class*='theme-dark-'].format-minimal .sidebar .skill-tag {
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+body.edit-mode:not([class*='theme-dark-']).format-harvard .sidebar [data-editable]:hover,
+body.edit-mode:not([class*='theme-dark-']).format-harvard .sidebar [data-editable]:focus,
+body.edit-mode:not([class*='theme-dark-']).format-ats .sidebar [data-editable]:hover,
+body.edit-mode:not([class*='theme-dark-']).format-ats .sidebar [data-editable]:focus,
+body.edit-mode:not([class*='theme-dark-']).format-minimal .sidebar [data-editable]:hover,
+body.edit-mode:not([class*='theme-dark-']).format-minimal .sidebar [data-editable]:focus {
+    background-color: rgba(0, 0, 0, 0.08);
+}

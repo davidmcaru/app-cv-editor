@@ -1,0 +1,197 @@
+body.edit-mode .cancel-edit-btn {
+    display: flex;
+}
+
+/* CHROME DE EDICIÓN
+   Ajustes por-app sobre el componente compartido components/widgets/edit-overlay. */
+
+/* Skill tags: × pequeño en la esquina superior-derecha del chip (proyectarlo a
+   calc(100%+3px) solaparía el chip vecino en la nube con wrap). */
+.skill-tag > .edt-crud-overlay--right {
+    left: auto;
+    right: -7px;
+    top: -7px;
+}
+
+.skill-tag > .edt-crud-overlay--right .edt-crud-btn {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.sidebar-section > .edt-crud-overlay--left,
+.main-section > .edt-crud-overlay--right {
+    top: 2px;
+}
+
+/* Los li del sidebar proyectan hacia el margen exterior IZQUIERDO del folio:
+   separarlos un poco más para no rozar el borde del sidebar oscuro. */
+.sidebar-section ul.list-clean > li > .edt-crud-overlay--left {
+    right: calc(100% + 10px);
+}
+
+/* AVISO DESBORDAMIENTO A4
+   Chip COMPACTO abajo-izquierda, fuera del camino de lectura. Visible solo en edición
+   cuando el contenido excede el folio (cv-edit-mode.ts). */
+.cv-a4-warning {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(243, 156, 18, 0.96);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.25;
+    z-index: 1000;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    max-width: 240px;
+}
+
+.cv-a4-warning[hidden] {
+    display: none;
+}
+
+/* Móvil/tablet: por encima de la bottom bar del toolbar compartido */
+@media screen and (max-width: 1024px) {
+    .cv-a4-warning {
+        bottom: calc(var(--edt-bottombar-h, 56px) + env(safe-area-inset-bottom, 0px) + 10px);
+        left: 12px;
+        max-width: 70vw;
+    }
+}
+
+body.edit-mode .download-btn {
+    display: none;
+}
+
+body.edit-mode .save-btn {
+    display: flex;
+    background: #27ae60;
+    color: #fff;
+}
+
+body.edit-mode .save-btn:hover {
+    background: #219a52;
+}
+
+body.edit-mode [data-editable] {
+    outline: 2px dashed rgba(52, 152, 219, 0.5);
+    outline-offset: 2px;
+    cursor: text;
+    transition:
+        outline-color 0.2s,
+        background-color 0.2s;
+}
+
+body.edit-mode [data-editable]:hover {
+    outline-color: rgba(52, 152, 219, 0.9);
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+body.edit-mode [data-editable]:focus {
+    outline: 2px solid #3498db;
+    background-color: rgba(52, 152, 219, 0.15);
+}
+
+body.edit-mode .sidebar [data-editable]:hover,
+body.edit-mode .sidebar [data-editable]:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.edit-mode [data-editable-link] {
+    outline: 2px dashed rgba(46, 204, 113, 0.5);
+    outline-offset: 2px;
+    cursor: pointer;
+    transition:
+        outline-color 0.2s,
+        background-color 0.2s;
+}
+
+body.edit-mode [data-editable-link]:hover {
+    outline-color: rgba(46, 204, 113, 0.9);
+    background-color: rgba(46, 204, 113, 0.15);
+}
+
+body.edit-mode .job-details .item-title {
+    outline: 1px dashed rgba(52, 152, 219, 0.4);
+    outline-offset: 1px;
+    display: inline-block;
+    width: auto;
+}
+
+body.edit-mode .job-details .item-content {
+    outline: 1px dashed rgba(52, 152, 219, 0.4);
+    outline-offset: 1px;
+}
+
+body.edit-mode .job-details .item-title:hover,
+body.edit-mode .job-details .item-content:hover {
+    outline-color: rgba(52, 152, 219, 0.8);
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+body.edit-mode .job-details .item-title:focus,
+body.edit-mode .job-details .item-content:focus {
+    outline: 1px solid #3498db;
+    background-color: rgba(52, 152, 219, 0.15);
+}
+
+body.edit-mode .editable-image {
+    cursor: pointer;
+    position: relative;
+}
+
+body.edit-mode .editable-image::after {
+    content: '📷 Editar';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+body.edit-mode .editable-image:hover::after {
+    opacity: 1;
+}
+
+body.edit-mode .profile-photo-placeholder.editable-image {
+    outline: 2px dashed rgba(52, 152, 219, 0.5);
+    outline-offset: 2px;
+}
+
+body.edit-mode .profile-photo-placeholder.editable-image:hover {
+    outline-color: rgba(52, 152, 219, 0.9);
+}
+
+body.edit-mode .qr-image.editable-image {
+    outline: 2px dashed rgba(52, 152, 219, 0.5);
+    outline-offset: 2px;
+    display: inline-block;
+}
+
+body.edit-mode .qr-image.editable-image:hover {
+    outline-color: rgba(52, 152, 219, 0.9);
+}
+
+.editable-image.image-hidden img,
+.editable-image.image-hidden {
+    visibility: hidden;
+}
+
+.editable-image.image-hidden::after {
+    content: '📷 Añadir' !important;
+    visibility: visible;
+}

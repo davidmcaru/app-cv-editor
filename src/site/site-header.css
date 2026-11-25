@@ -1,0 +1,236 @@
+/* La cabecera de la app: fija arriba, de cristal, con el nombre a la izquierda y tres botones redondos a la derecha.
+   Su altura es --header-height: la barra del editor y el hueco de arriba del CV cuentan con ella. */
+
+:root {
+    --header-height: 61px;
+}
+
+body.has-site-header {
+    padding-top: var(--header-height);
+}
+
+.site-header {
+    --site-ink: #1a1a1a;
+    --site-muted: #5f6b76;
+    --site-line: rgba(0, 0, 0, 0.08);
+    --site-btn-bg: rgba(0, 0, 0, 0.05);
+    --site-btn-hover: rgba(37, 112, 194, 0.12);
+    --site-accent: #2570c2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    height: var(--header-height);
+    padding: 0 24px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--site-line);
+    font-family:
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        Roboto,
+        sans-serif;
+    color: var(--site-ink);
+}
+
+.site-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.site-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.site-header__logo {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.site-header__brand:hover .site-header__logo {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+.site-header__name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.site-header__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--site-btn-bg);
+    color: var(--site-ink);
+    font-size: 1.05rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.site-header__btn:hover,
+.site-header__btn[aria-expanded='true'] {
+    background: var(--site-btn-hover);
+    color: var(--site-accent);
+}
+
+.site-header__btn:focus-visible {
+    outline: 2px solid var(--site-accent);
+    outline-offset: 2px;
+}
+
+/* Los Ajustes: una tarjeta bajo el engranaje */
+.site-settings {
+    position: absolute;
+    top: calc(var(--header-height) - 4px);
+    right: 16px;
+    width: 300px;
+    max-width: calc(100vw - 32px);
+    padding: 16px 18px 8px;
+    box-sizing: border-box;
+    border: 1px solid var(--site-line);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
+}
+
+.site-settings[hidden] {
+    display: none;
+}
+
+.site-settings__title {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.site-settings__group {
+    margin: 0;
+    padding: 10px 0;
+    border: 0;
+    border-top: 1px solid var(--site-line);
+}
+
+.site-settings__group legend {
+    padding: 0;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--site-muted);
+}
+
+.site-settings__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.site-settings__options label {
+    position: relative;
+}
+
+/* La opción es la pastilla: el radio, invisible encima, sigue siendo el que recibe el clic y el teclado */
+.site-settings__options input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.site-settings__options span {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    line-height: normal;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.site-settings__options input:checked + span {
+    border-color: var(--site-accent);
+    background: var(--site-accent);
+    color: #fff;
+}
+
+.site-settings__options input:focus-visible + span {
+    outline: 2px solid var(--site-accent);
+    outline-offset: 2px;
+}
+
+.site-settings__help {
+    margin: 8px 0 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--site-muted);
+}
+
+/* Oscuro */
+html.dark-mode .site-header {
+    --site-ink: #f2f2f2;
+    --site-muted: #a3acb5;
+    --site-line: rgba(255, 255, 255, 0.1);
+    --site-btn-bg: rgba(255, 255, 255, 0.08);
+    --site-btn-hover: rgba(189, 240, 255, 0.14);
+    --site-accent: #bdf0ff;
+    background: rgba(10, 10, 10, 0.85);
+}
+
+html.dark-mode .site-settings {
+    background: rgba(24, 24, 24, 0.97);
+}
+
+html.dark-mode .site-settings__options span {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+html.dark-mode .site-settings__options input:checked + span {
+    color: #0a0a0a;
+}
+
+@media (max-width: 728px) {
+    .site-header {
+        padding: 0 14px;
+    }
+
+    .site-header__name {
+        font-size: 1rem;
+    }
+}
