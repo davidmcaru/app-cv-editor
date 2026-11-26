@@ -5,14 +5,6 @@
     padding: 10px;
     margin-bottom: 10px;
 }
-.postal-panel__section {
-    margin-bottom: 6px;
-}
-.postal-panel__section + .postal-panel__section {
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
 
 .edt-section__header {
     display: flex;
@@ -49,20 +41,17 @@
 /* El botón de reinicio (.edt-section__reset) se estila desde el componente compartido
    components/core/styles/editor-icon-btn.css. */
 
-.edt-section__chevron,
-.postal-acc__chevron {
+.edt-section__chevron {
     display: flex;
     align-items: center;
     color: #aaa;
     flex-shrink: 0;
 }
-.edt-section__chevron svg,
-.postal-acc__chevron svg {
+.edt-section__chevron svg {
     transition: transform 0.2s ease;
     transform: rotate(90deg);
 }
-.edt-section.is-collapsed .edt-section__chevron svg,
-.postal-panel__section.is-collapsed .postal-acc__chevron svg {
+.edt-section.is-collapsed .edt-section__chevron svg {
     transform: rotate(0deg);
 }
 .edt-section.is-collapsed > :not(.edt-section__header) {

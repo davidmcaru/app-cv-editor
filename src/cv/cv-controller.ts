@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (state.cvMode === 'showcase' && !hasLocalSnapshot && !externalSource) {
         state.currentLang = idiomaDeMuestra(prefs.lang);
-        // Sella la marca de un cv-pref-lang de antes: sin ella, un cambio de General no se notaría nunca
+        // Sella la marca de un cv-pref-lang de antes: sin ella, un cambio de los Ajustes no se notaría nunca
         if (prefs.lang) {
             saveGlobalPreference('lang', state.currentLang);
             saveSiteMark();

@@ -2072,9 +2072,9 @@ test.describe('CV Editor — barra móvil + menú "Más"', () => {
 });
 
 const MYMEMORY = '**/api.mymemory.translated.net/**';
-const GENERAL_EN = { clave: 'lang-preference', valor: 'en' };
+const AJUSTES_EN = { clave: 'lang-preference', valor: 'en' };
 
-// Siembra ANTES de que el CV lea nada: General, el permiso y el idioma recordado. Sin sembrar, permiso denegado
+// Siembra ANTES de que el CV lea nada: el idioma de los Ajustes, el permiso y el idioma recordado. Sin sembrar, permiso denegado
 async function bootCon(page, sembrar = {}) {
     test.skip(
         test.info().project.name === 'Mobile Safari',
@@ -2092,7 +2092,7 @@ async function bootCon(page, sembrar = {}) {
 }
 
 // Lo que hace el panel de Ajustes al elegir: guardar y avisar a la página
-function cambiarGeneral(page, { clave, valor } = GENERAL_EN) {
+function cambiarIdiomaDeAjustes(page, { clave, valor } = AJUSTES_EN) {
     return page.evaluate(
         ([k, v]) => {
             localStorage.setItem(k, v);
@@ -2137,7 +2137,7 @@ test.describe('CV Editor — el idioma de los Ajustes y el permiso de traducció
     test('tu CV no sigue al idioma de los Ajustes: se queda en el suyo y lo avisa', async ({ page }) => {
         await bootCon(page);
         await saveTextEdit(page, 'CV propio E2E');
-        await cambiarGeneral(page);
+        await cambiarIdiomaDeAjustes(page);
         await expect(page.locator('.edt-toast').filter({ hasText: 'Tu CV se queda en su idioma' })).toBeVisible();
         await expect(page.locator('html')).toHaveAttribute('lang', 'es');
         await page.reload();

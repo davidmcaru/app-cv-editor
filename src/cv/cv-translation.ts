@@ -92,7 +92,8 @@ export async function translateEditedContent() {
 
         // Campos de contacto (enlaces): DATO REAL (email/teléfono/usuario), idéntico en los
         // 3 idiomas → copia VERBATIM, nunca traducir ni enviar al servicio externo.
-        if (element.matches && element.matches('[data-editable-link]')) {
+        // El nombre de la persona, igual: es el mismo en los tres idiomas y no se traduce
+        if (element.matches && (element.matches('[data-editable-link]') || element.matches('.header h1'))) {
             for (const { tree } of destinos) {
                 const twin = findInTree(tree);
                 if (twin) updateElementText(twin, rawText);

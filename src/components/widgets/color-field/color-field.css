@@ -1,13 +1,11 @@
-.cf-field,
-.postal-color-field {
+.cf-field {
     position: relative;
     display: flex;
     align-items: stretch;
     gap: 6px;
 }
 
-.cf-field .cf-hex,
-.postal-color-field .pc-hex {
+.cf-field .cf-hex {
     flex: 1 1 auto;
     min-width: 0;
     height: 34px;
@@ -23,8 +21,7 @@
 }
 
 /* Foco unificado NEGRO. */
-.cf-field .cf-hex:focus,
-.postal-color-field .pc-hex:focus {
+.cf-field .cf-hex:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(44, 44, 44, 0.08);
 }
@@ -32,8 +29,7 @@
 /* Muestra: borde 1px gris CLARO forzado (!important) para ganar a los border-width que
    ambas apps le meten vía `.form-group input[type=color]` / `.cv-config-field ...` y así
    ser IDÉNTICA en las dos. */
-.cf-field .cf-swatch,
-.postal-color-field .pc-swatch {
+.cf-field .cf-swatch {
     flex: 0 0 40px;
     width: 40px !important;
     height: 34px !important;
@@ -44,28 +40,23 @@
     cursor: pointer;
 }
 
-.cf-field .cf-swatch::-webkit-color-swatch-wrapper,
-.postal-color-field .pc-swatch::-webkit-color-swatch-wrapper {
+.cf-field .cf-swatch::-webkit-color-swatch-wrapper {
     padding: 0;
 }
-.cf-field .cf-swatch::-webkit-color-swatch,
-.postal-color-field .pc-swatch::-webkit-color-swatch {
+.cf-field .cf-swatch::-webkit-color-swatch {
     border: none;
     border-radius: 6px;
 }
-.cf-field .cf-swatch::-moz-color-swatch,
-.postal-color-field .pc-swatch::-moz-color-swatch {
+.cf-field .cf-swatch::-moz-color-swatch {
     border: none;
     border-radius: 6px;
 }
 
-body.dark-mode .cf-field .cf-hex,
-.dark-mode .postal-color-field .pc-hex {
+body.dark-mode .cf-field .cf-hex {
     background: #1e1e1e;
     border-color: #444;
     color: #e0e0e0;
 }
-body.dark-mode .cf-field .cf-swatch,
-.dark-mode .postal-color-field .pc-swatch {
+body.dark-mode .cf-field .cf-swatch {
     border-color: #444 !important;
 }

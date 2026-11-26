@@ -7,7 +7,7 @@ import { sourceLang } from './cv-translation.ts';
 import type { Lang } from './cv-types.ts';
 import { showToast } from './cv-utils.ts';
 
-// El idioma que tenía General al guardarse cv-pref-lang: si General cambió después, gana General
+// El idioma que tenían los Ajustes al guardarse cv-pref-lang: si cambiaron después, ganan los Ajustes
 const SITE_MARK_KEY = 'cv-pref-lang-site';
 const RETRY_MS = 300;
 let site: Lang = 'ES';
@@ -30,10 +30,10 @@ export function saveSiteMark(): void {
     }
 }
 
-// «Gana la última elección»: el botón del CV de muestra se recuerda hasta que General cambia
+// «Gana la última elección»: el botón del CV de muestra se recuerda hasta que cambian los Ajustes
 export function idiomaDeMuestra(saved: Lang | null): Lang {
     const actual = sourceLang();
-    // Sin marca es un cv-pref-lang de antes de seguir a General: vale como elegido con el de hoy
+    // Sin marca es un cv-pref-lang de antes de seguir a los Ajustes: vale como elegido con el de hoy
     const mark = readMark() ?? actual;
     return saved && mark === actual ? saved : actual;
 }
@@ -61,7 +61,7 @@ function applyPending({ aplicar, propio }: Seguir): void {
     }
     const lang = pending;
     pending = null;
-    // Guardar lo que se editaba lo convierte en tu CV: ya no sigue a General
+    // Guardar lo que se editaba lo convierte en tu CV: ya no sigue a los Ajustes
     if (propio()) avisarPropio(lang);
     else aplicar(lang);
 }
@@ -70,7 +70,7 @@ export function followSiteLang(seguir: Seguir): void {
     site = sourceLang();
     observarAjuste(AJUSTE_IDIOMA, () => {
         const next = sourceLang();
-        // pageshow y el storage de clave null repiten el aviso sin que General haya cambiado
+        // pageshow y el storage de clave null repiten el aviso sin que hayan cambiado los Ajustes
         if (next === site) return;
         site = next;
         if (seguir.propio()) {

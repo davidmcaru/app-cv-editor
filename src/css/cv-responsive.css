@@ -108,7 +108,7 @@
 }
 
 @media screen and (min-width: 729px) and (max-width: 1024px) {
-    /* En móvil el header se comporta como en el resto del sitio: fixed */
+    /* En móvil la cabecera va fija arriba */
     #header-placeholder .site-header {
         position: relative !important;
         width: 100% !important;

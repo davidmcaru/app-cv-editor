@@ -22,36 +22,3 @@ export interface CampoAjuste<T extends string = string> {
     readonly defecto: T;
     readonly rejilla?: boolean;
 }
-
-// Una parte de lo que la app guarda en este navegador: sus claves exactas o sus prefijos (las que se construyen).
-// `conCifras` da, si puede, otro texto con cifras sacadas de lo guardado
-export interface GrupoDatos {
-    readonly texto: string;
-    readonly claves?: readonly string[];
-    readonly prefijos?: readonly string[];
-    readonly conCifras?: () => { texto: string; vars: Record<string, string> } | null;
-}
-
-// La pieza de acción: qué guarda la app, cuánto ocupa y un botón para borrarlo, con su confirmación
-export interface DatosApp {
-    readonly ayuda: string;
-    readonly grupos: readonly GrupoDatos[];
-}
-
-export interface SeccionAjustes {
-    readonly id: string;
-    readonly icono: string;
-    readonly texto: string;
-    readonly subtitulo: string;
-    readonly lema: string;
-    readonly rutas: readonly string[];
-    readonly campos: readonly CampoAjuste[];
-    readonly datos?: DatosApp;
-}
-
-export interface AppProxima {
-    readonly id: string;
-    readonly icono: string;
-    readonly texto: string;
-    readonly rutas: readonly string[];
-}

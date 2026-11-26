@@ -157,7 +157,7 @@ const _stateRaw: CVState = {
     activeData: null, // se asigna en cv-data-loader.ts
     baseData: null, // ídem; después lo actualiza loadBaseData() en cada carga de base
     lastSavedAt: null, // timestamp del último snapshot persistido
-    cvMode: 'showcase', // set en boot por _detectCVMode()
+    cvMode: 'full',
     activeProfile: DEFAULT_PROFILE, // solo aplica realmente si cvMode === 'full'
     _editingMutex: false, // guarda contra entradas concurrentes a edit-mode
     _editAbortController: null, // AbortController para listeners de edición
